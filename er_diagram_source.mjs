@@ -11,6 +11,8 @@ erDiagram
         integer restaurant_id fk "not null"
         integer user_id fk "not null"
         decimal rating_number
+        timestamp uploaded "not null"
+        timestamp last_updated "not null"
         varchar(1024) review
     }
 
