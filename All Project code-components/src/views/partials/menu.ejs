@@ -1,48 +1,22 @@
 <header>
-    <nav class="navbar navbar-expand-sm border-bottom">
-      <div class="container">
-        <button
-          class="navbar-toggler ms-auto"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbar-collapse"
-          aria-controls="navbar"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
-              <a class="nav-link" href="/discover">
-                <img src="../../resources/img/chef_man.png" alt="Chef Man" width="30" height="30">
-              </a>
-            </li>
-          </ul>
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
-                <a class="nav-link" href="">Daily Deals</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
-                <a class="nav-link" href="">Events</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
-                <a class="nav-link" href="">Search</a>
-            </li>
-          </ul>
-          <div class="nav-item me-1">
-            <!-- TO-DO: For Logout, add a <a> tag with an attribute href to call the '/logout API -->
-                <a class="nav-link" href="/logout">Logout</a>
-          </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#!">Cuisine Companion</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+              <li class="nav-item"><a class="nav-link" href="/discover">Discover</a></li>
+              <li class="nav-item"><a class="nav-link" href="/events">Events</a></li>
+              <li class="nav-item"><a class="nav-link" href="/deals">Deals</a></li>
+              <li class="nav-item"><a class="nav-link" href="/calendar">Calendar</a></li>
+
+            </ul>
+                <button class="btn btn-outline-dark" >
+                    <i class="nav-link" href="/login"></i>
+                    Log In
+                  
+                </button>
         </div>
-      </div>
-    </nav>
+    </div>
+</nav>
    </header>
