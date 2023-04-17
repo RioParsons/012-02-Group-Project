@@ -52,3 +52,13 @@ it('positive : /add_user', done => {
         done();
       });
   });
+
+it('/getReviews', done => {
+    chai
+      .request(server)
+      .get('/getReviews')
+      .end((err, res) => {
+        expect(res.body.status).to.equals('success');
+        done();
+      });
+});

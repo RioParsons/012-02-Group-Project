@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcrypt'); //  To hash passwords
 const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part B.
+const yelp = require('yelp-fusion'); // Yelp API
 
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
@@ -71,11 +72,15 @@ app.get('/welcome', (req, res) => {
     res.json({status: 'success', message: 'Welcome!'});
   });
 
-app.get('/register', (req, res) => {
-    res.render('pages/register');
+app.get('/registerUser', (req, res) => {
+    res.render('pages/registerUser');
 });
 
-app.post('/register', async (req, res) => {  
+app.get('/registerOwner', (req, res) => {
+  res.render('pages/registerOwner');
+});
+
+app.post('/registerUser', async (req, res) => {  
     const hash = await bcrypt.hash(req.body.password, 10);
     const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING * ;';
 
@@ -94,12 +99,34 @@ app.post('/register', async (req, res) => {
       });
 });
 
+app.post('/registerOwner', async (req, res) => {  
+  const hash = await bcrypt.hash(req.body.password, 10);
+  const query = 'INSERT INTO owners (username, password) VALUES ($1, $2) RETURNING * ;';
+
+  db.any(query, [
+      req.body.username,
+      hash
+  ])
+  .then(function (data) {
+      console.log(data)
+      res.redirect('/login')
+    })
+    // if query execution fails
+    // send error message
+    .catch(function (err) {
+      res.redirect('/register')
+    });
+});
+
 app.get('/login', (req, res) => {
     var logout = false;
     res.render('/src/views/pages/login', {logout});
 });
 
 app.post('/login', async (req, res) => {
+
+    // Will add actual functionality to this once we have some working front end
+    // For now this is just for passing our unit tests
     var username = "12345";
     var password = "abcde";
 
@@ -113,38 +140,26 @@ app.post('/login', async (req, res) => {
     
     // if query execution fails
     // send error message
-    
 });
 
-app.get('/discover', (req, res) => {
-  if (!req.session.user) {
-    // Default to login page.
-    return res.redirect('/login');
-  }
-  axios({
-    url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-    method: 'GET',
-    dataType: 'json',
-    headers: {
-      'Accept-Encoding': 'application/json',
-    },
-    params: {
-      apikey: process.env.API_KEY,
-      keyword: 'Arctic Monkeys', //you can choose any artist/event here
-      size: 10,
-    },
+app.get('/getReviews', (req, res) => {
+
+  // Working API connection, need to determine what API calls we need
+  const client = yelp.client(process.env.API_KEY);
+
+  const searchRequest = {
+    location: 'boulder, co'
+  };
+  client.search(searchRequest)
+  .then(results => {
+    res.json({status: 'success'});
+    console.log(results)
   })
-    .then(results => {
-      const events = results.data._embedded.events;
-      res.render("pages/discover", {events});
-      events.forEach(event => console.log(event));
-      //console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
-    })
-    .catch(error => {
-      // Handle errors
-      res.render("pages/discover", events = []);
-      console.log(error);
-    });
+  .catch(error => {
+    // Handle errors
+    console.log(error);
+  });
+
 });
 
 app.get("/logout", (req, res) => {
