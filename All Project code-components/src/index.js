@@ -168,6 +168,22 @@ app.get("/logout", (req, res) => {
   res.render("pages/login", {logout});
 });
 
+app.get("/restaurant/:rid", (req, res) => {
+
+  if(!exists(req.params.rid)) {
+    //todo render an error page
+    console.log("PLEASE FIX ERROR NEAR LINE 174")
+    return;
+  }
+
+  console.log(`rid: ${req.params.rid}`)
+  var r_dat_db_query = `SELECT * FROM restaurants WHERE restaurant_id=${req.params.rid}`
+
+  let [r_data_db_res] = db.one(r_dat_db_query).then(data => {return [false, data]}).catch(err => {return [true, err]})
+
+  res.send("Ok")
+})
+
 // Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
@@ -176,6 +192,10 @@ const auth = (req, res, next) => {
   }
   next();
 };
+
+function exists(option) {
+  return option != null || option != undefined;
+}
 
 // Authentication Required
 app.use(auth);
