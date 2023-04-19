@@ -85,7 +85,7 @@ app.post('/register', async (req, res) => {
 
     // console.log("Owner box checked: " + isOwner);
 
-    const userReg = 'INSERT INTO users (username, pwd) VALUES ($1, $2) RETURNING user_id ;';
+    const userReg = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING user_id ;';
     const ownerReg = `INSERT INTO owners (owner_id) VALUES (SELECT user_id from users where users.username = $1);`;
 
     db.task('do-everything', task => {
