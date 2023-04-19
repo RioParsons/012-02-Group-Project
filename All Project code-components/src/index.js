@@ -168,6 +168,11 @@ app.get("/logout", (req, res) => {
   res.render("pages/login", {logout});
 });
 
+app.get("/restaurant/:rid", (req, res) => {
+  console.log(`rid: ${req.params.rid}`)
+  res.send("Ok")
+})
+
 // Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
