@@ -168,7 +168,7 @@ app.get("/logout", (req, res) => {
   res.render("pages/login", {logout});
 });
 
-app.get("/restaurant/:rid", (req, res) => {
+app.get("/restaurant/:rid", async  (req, res) => {
 
   if(!exists(req.params.rid)) {
     //todo render an error page
@@ -179,10 +179,52 @@ app.get("/restaurant/:rid", (req, res) => {
   console.log(`rid: ${req.params.rid}`)
   var r_dat_db_query = `SELECT * FROM restaurants WHERE restaurant_id=${req.params.rid}`
 
-  let [r_data_db_res] = db.one(r_dat_db_query).then(data => {return [false, data]}).catch(err => {return [true, err]})
+  let [r_data_db_err, r_data_db_res] = await db.one(r_dat_db_query).then(data => {return [false, data]}).catch(err => {return [true, err]});
 
-  res.send("Ok")
+  if(r_data_db_err) {
+    //todo render an error page
+    console.log("PLEASE FIX ERROR NEAR LINE 186")
+    return;
+  }
+
+  let r_rev_db_query = `SELECT * FROM ratings WHERE restaurant_id=${req.params.rid}`
+  let [r_rev_db_err, r_rev_db_res] = await db.any(r_rev_db_query).then(data => {return [false, data]}).catch(err => {return [true, err]});
+
+  if(r_rev_db_err) {
+    //todo render an error page
+    console.log("PLEASE FIX ERROR NEAR LINE 195")
+    return;
+  }
+  // Data in restaurant_data
+  //{
+  //  restaurant_id: 1,
+  //  name: 'Admins cool empty place',
+  //  image_url: 'nowhere.com',
+  //  owner_id: 1
+  //}
+
+
+  // Data in restaurant_reviews
+  //[
+  //  {
+  //    rating_id: 1,
+  //    restaurant_id: 1,
+  //    user_id: 1,
+  //    last_updated: 2023-04-19T13:05:06.000Z,
+  //    uploaded: 2023-04-19T13:05:06.000Z,
+  //    rating_number: '3.5',
+  //    review: 'I went to this place, and I did not have permision to read the menu...staff were helpful at least.'
+  //  }
+  //]
+
+  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res})
 })
+
+
+
+function exists(option) {
+  return option != null || option != undefined;
+}
 
 // Authentication Middleware.
 const auth = (req, res, next) => {
@@ -192,10 +234,6 @@ const auth = (req, res, next) => {
   }
   next();
 };
-
-function exists(option) {
-  return option != null || option != undefined;
-}
 
 // Authentication Required
 app.use(auth);
