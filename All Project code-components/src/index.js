@@ -147,6 +147,8 @@ app.post('/login', async (req, res) => {
     // if query execution fails
     // send error message */
 
+    // console.log(req.body);
+
     const username = req.body.username;
     const password = req.body.password;
 
@@ -154,11 +156,10 @@ app.post('/login', async (req, res) => {
     // check if password from request matches with password in D
     db.any(query)
     .then(async function (user) {
-        console.log(user);
-        console.log(req.body.password);
+        // console.log(user);
 
         if(user != null){
-            const match = await bcrypt.compare(password, user[0].password);
+            const match = await bcrypt.compare(password, user[0].pswd);
             if (match) {
                 //save user details in session like in lab 8
                 console.log("User found");
@@ -181,6 +182,22 @@ app.post('/login', async (req, res) => {
         console.log("Database request failed", err);
         res.redirect('/register');
     });
+});
+
+app.get('/discover', (req, res) => {
+  res.render('pages/discover');
+});
+
+app.get('/deals', (req, res) => {
+  res.render('pages/deals');
+});
+
+app.get('/calendar', (req, res) => {
+  res.render('pages/calendar');
+});
+
+app.get('/events', (req, res) => {
+  res.render('pages/events');
 });
 
 app.get('/getReviews', (req, res) => {
