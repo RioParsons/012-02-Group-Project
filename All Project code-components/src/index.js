@@ -70,52 +70,57 @@ app.get('/', (req, res) => {
 
 app.get('/welcome', (req, res) => {
     res.json({status: 'success', message: 'Welcome!'});
-  });
-
-app.get('/registerUser', (req, res) => {
-    res.render('pages/registerUser');
 });
 
-app.get('/registerOwner', (req, res) => {
-  res.render('pages/registerOwner');
+app.get('/register', (req, res) => {
+    res.render('pages/register');
 });
 
-app.post('/registerUser', async (req, res) => {  
-    const hash = await bcrypt.hash(req.body.password, 10);
-    const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING * ;';
+app.post('/register', async (req, res) => {  
+    
+    const username = req.body.username; // Username field
+    const password = req.body.password; // Password field
+    const isOwner = req.body.isOwner == null ? false : true // True if box is ticked, false otherwise
+    const hash = await bcrypt.hash(password, 10);
 
-    db.any(query, [
-        req.body.username,
-        hash
-    ])
+    // console.log("Owner box checked: " + isOwner);
+
+    const userReg = 'INSERT INTO users (username, pswd) VALUES ($1, $2) RETURNING user_id ;';
+    const ownerReg = `INSERT INTO owners (owner_id) (SELECT user_id FROM users WHERE users.username = $1);`;
+
+    db.task('do-everything', task => {
+      if (isOwner) {
+        console.log("Adding owner");
+        return task.batch([
+          task.any(userReg, [
+            username,
+            hash
+          ]),
+          task.any(ownerReg, [
+            username
+          ]),
+        ]);
+      } else {
+        console.log("Adding regular user")
+        return task.batch([
+          task.any(userReg, [
+            username,
+            hash
+          ]),
+        ]);
+      }
+    })
     .then(function (data) {
-        console.log(data)
+        console.log("Registration succeeded")
+        //console.log(data)
         res.redirect('/login')
       })
       // if query execution fails
       // send error message
       .catch(function (err) {
+        console.log("Registration failed")
         res.redirect('/register')
       });
-});
-
-app.post('/registerOwner', async (req, res) => {  
-  const hash = await bcrypt.hash(req.body.password, 10);
-  const query = 'INSERT INTO owners (username, password) VALUES ($1, $2) RETURNING * ;';
-
-  db.any(query, [
-      req.body.username,
-      hash
-  ])
-  .then(function (data) {
-      console.log(data)
-      res.redirect('/login')
-    })
-    // if query execution fails
-    // send error message
-    .catch(function (err) {
-      res.redirect('/register')
-    });
 });
 
 app.get('/login', (req, res) => {
@@ -127,6 +132,7 @@ app.post('/login', async (req, res) => {
 
     // Will add actual functionality to this once we have some working front end
     // For now this is just for passing our unit tests
+    /*
     var username = "12345";
     var password = "abcde";
 
@@ -139,7 +145,42 @@ app.post('/login', async (req, res) => {
     }
     
     // if query execution fails
+    // send error message */
+
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const query = `SELECT * FROM users WHERE username = '${req.body.username}';`
+    // check if password from request matches with password in D
+    db.any(query)
+    .then(async function (user) {
+        console.log(user);
+        console.log(req.body.password);
+
+        if(user != null){
+            const match = await bcrypt.compare(password, user[0].password);
+            if (match) {
+                //save user details in session like in lab 8
+                console.log("User found");
+                req.session.user = user;
+                req.session.save();
+    
+                res.redirect('/discover');
+            } else {
+                console.log("Username or password is incorrect");
+                res.render('pages/login');
+            }
+        } else {
+            console.log("User not found");
+            res.redirect('/register');
+        }
+    })
+    // if query execution fails
     // send error message
+    .catch(function (err) {
+        console.log("Database request failed", err);
+        res.redirect('/register');
+    });
 });
 
 app.get('/getReviews', (req, res) => {
