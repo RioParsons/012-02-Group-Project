@@ -120,7 +120,7 @@ app.post('/registerOwner', async (req, res) => {
 
 app.get('/login', (req, res) => {
     var logout = false;
-    res.render('/src/views/pages/login', {logout});
+    res.render('pages/login', {logout});
 });
 
 app.post('/login', async (req, res) => {
