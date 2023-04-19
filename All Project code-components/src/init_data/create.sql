@@ -5,7 +5,7 @@ CREATE TABLE users(
 	user_id SERIAL NOT NULL PRIMARY KEY,
 	display_name VARCHAR(32),
     username VARCHAR(64) NOT NULL,
-    password VARCHAR(256) NOT NULL
+    pswd VARCHAR(256) NOT NULL
 );
 
 

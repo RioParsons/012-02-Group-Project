@@ -85,8 +85,8 @@ app.post('/register', async (req, res) => {
 
     // console.log("Owner box checked: " + isOwner);
 
-    const userReg = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING user_id ;';
-    const ownerReg = `INSERT INTO owners (owner_id) VALUES (SELECT user_id from users where users.username = $1);`;
+    const userReg = 'INSERT INTO users (username, pswd) VALUES ($1, $2) RETURNING user_id ;';
+    const ownerReg = `INSERT INTO owners (owner_id) (SELECT user_id FROM users WHERE users.username = $1);`;
 
     db.task('do-everything', task => {
       if (isOwner) {
@@ -132,6 +132,7 @@ app.post('/login', async (req, res) => {
 
     // Will add actual functionality to this once we have some working front end
     // For now this is just for passing our unit tests
+    /*
     var username = "12345";
     var password = "abcde";
 
@@ -144,7 +145,42 @@ app.post('/login', async (req, res) => {
     }
     
     // if query execution fails
+    // send error message */
+
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const query = `SELECT * FROM users WHERE username = '${req.body.username}';`
+    // check if password from request matches with password in D
+    db.any(query)
+    .then(async function (user) {
+        console.log(user);
+        console.log(req.body.password);
+
+        if(user != null){
+            const match = await bcrypt.compare(password, user[0].password);
+            if (match) {
+                //save user details in session like in lab 8
+                console.log("User found");
+                req.session.user = user;
+                req.session.save();
+    
+                res.redirect('/discover');
+            } else {
+                console.log("Username or password is incorrect");
+                res.render('pages/login');
+            }
+        } else {
+            console.log("User not found");
+            res.redirect('/register');
+        }
+    })
+    // if query execution fails
     // send error message
+    .catch(function (err) {
+        console.log("Database request failed", err);
+        res.redirect('/register');
+    });
 });
 
 app.get('/getReviews', (req, res) => {
@@ -173,6 +209,22 @@ app.get("/logout", (req, res) => {
   res.render("pages/login", {logout});
 });
 
+app.get("/restaurant/:rid", (req, res) => {
+
+  if(!exists(req.params.rid)) {
+    //todo render an error page
+    console.log("PLEASE FIX ERROR NEAR LINE 174")
+    return;
+  }
+
+  console.log(`rid: ${req.params.rid}`)
+  var r_dat_db_query = `SELECT * FROM restaurants WHERE restaurant_id=${req.params.rid}`
+
+  let [r_data_db_res] = db.one(r_dat_db_query).then(data => {return [false, data]}).catch(err => {return [true, err]})
+
+  res.send("Ok")
+})
+
 // Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
@@ -181,6 +233,10 @@ const auth = (req, res, next) => {
   }
   next();
 };
+
+function exists(option) {
+  return option != null || option != undefined;
+}
 
 // Authentication Required
 app.use(auth);
