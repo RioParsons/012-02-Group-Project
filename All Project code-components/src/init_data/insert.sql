@@ -1,7 +1,7 @@
-INSERT INTO users (user_id, display_name, username, password)
+INSERT INTO users ( display_name, username, password)
 VALUES 
-(0, 'admin', 'admin@funny.com', 'password'),
-(1, 'ethan', 'ethan@gmail.com', 'password123'),
+('admin', 'admin@funny.com', 'password'),
+('ethan', 'ethan@gmail.com', 'password123');
 
 INSERT INTO owners (owner_id) VALUES 
 (0);
