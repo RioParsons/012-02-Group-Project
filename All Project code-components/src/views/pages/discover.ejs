@@ -138,111 +138,38 @@
            <div class="container px-4 px-lg-5 mt-5">
                <h2> Highest Rated </h2>
                  <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                     <div class="col mb-5">
-                         <div class="card h-100">
-                             <!-- Restaurant Image-->
-                             <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                             <!-- Product details-->
-                             <div class="card-body p-4">
-                                 <div class="text-center">
-                                     <!--  Restaurant name-->
-                                     <h5 class="fw-bolder">Restaurant Name</h5>
-                                      
-      
-                                     <!-- To display checked star rating icons -->  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <!-- To display unchecked star rating icons -->  
-                                     <span class = "fa fa-star unchecked"></span>  
-                                 </div>
-                             </div>
-                             <!-- Product actions-->
-                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
-                             </div>
-                         </div>
+                        <% if (data) { %>
+                            <% data[0].forEach(function(restaurant){ %>
+                                <div class="col mb-5">
+                                    <div class="card h-100">
+                                        <!-- Restaurant Image-->
+                                        <img class="card-img-top" src="<%= restaurant.image_url %>" alt="<%= restaurant.image_url %>" />
+                                        <!-- Product details-->
+                                        <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <!--  Restaurant name-->
+                                                <h5 class="fw-bolder"> <%= restaurant.name %> </h5>
+                                                
+                
+                                                <!-- To display checked star rating icons -->  
+                                                <!-- Leaving this for now, but we need a way to display partial stars -->
+                                                <span class = "fa fa-star checked"></span>  
+                                                <span class = "fa fa-star checked"></span>  
+                                                <span class = "fa fa-star checked"></span>  
+                                                <span class = "fa fa-star checked"></span>  
+                                                <!-- To display unchecked star rating icons -->  
+                                                <span class = "fa fa-star unchecked"></span>  
+                                            </div>
+                                        </div>
+                                        <!-- Product actions-->
+                                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        <% } %>
                      </div>
-                     <div class="col mb-5">
-                        <div class="card h-100">
-                             <!-- Restaurant Image-->
-                             <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                             <!-- Product details-->
-                             <div class="card-body p-4">
-                                 <div class="text-center">
-                                     <!--  Restaurant name-->
-                                     <h5 class="fw-bolder">Restaurant Name</h5>
-                                      
-      
-                                     <!-- To display checked star rating icons -->  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <!-- To display unchecked star rating icons -->  
-                                     <span class = "fa fa-star unchecked"></span>  
-                                 </div>
-                             </div>
-                             <!-- Product actions-->
-                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="col mb-5">
-                         <div class="card h-100">
-                             <!-- Restaurant Image-->
-                             <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                             <!-- Product details-->
-                             <div class="card-body p-4">
-                                 <div class="text-center">
-                                     <!--  Restaurant name-->
-                                     <h5 class="fw-bolder">Restaurant Name</h5>
-                                      
-      
-                                     <!-- To display checked star rating icons -->  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <!-- To display unchecked star rating icons -->  
-                                     <span class = "fa fa-star unchecked"></span>  
-                                 </div>
-                             </div>
-                             <!-- Product actions-->
-                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="col mb-5">
-                         <div class="card h-100">
-                             <!-- Restaurant Image-->
-                             <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                             <!-- Product details-->
-                             <div class="card-body p-4">
-                                 <div class="text-center">
-                                     <!--  Restaurant name-->
-                                     <h5 class="fw-bolder">Restaurant Name</h5>
-                                      
-      
-                                     <!-- To display checked star rating icons -->  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <span class = "fa fa-star checked"></span>  
-                                     <!-- To display unchecked star rating icons -->  
-                                     <span class = "fa fa-star unchecked"></span>  
-                                 </div>
-                             </div>
-                             <!-- Product actions-->
-                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
-                             </div>
-                         </div>
-                   </div>
-                   
                    
                  </div>
              </div>
