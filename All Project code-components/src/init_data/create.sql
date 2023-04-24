@@ -8,7 +8,6 @@ CREATE TABLE users(
     pswd VARCHAR(256) NOT NULL
 );
 
-
 DROP TABLE IF EXISTS owners CASCADE;
 CREATE TABLE owners(
 	owner_id INTEGER REFERENCES users(user_id)
@@ -31,4 +30,24 @@ CREATE TABLE ratings(
 	uploaded TIMESTAMP NOT NULL,
 	rating_number decimal,
 	review VARCHAR(1024)
+);
+
+DROP TABLE IF EXISTS events CASCADE;
+CREATE TABLE special_events(
+	event_id SERIAL NOT NULL PRIMARY KEY,
+	event_title VARCHAR(256) NOT NULL,
+	event_description VARCHAR(256) NOT NULL,
+	restaurant VARCHAR(256) NOT NULL,
+	day VARCHAR(64) NOT NULL,
+	time VARCHAR(64) NOT NULL
+);
+
+DROP TABLE IF EXISTS deals CASCADE;
+CREATE TABLE special_events(
+	deal_id SERIAL NOT NULL PRIMARY KEY,
+	deal_title VARCHAR(256) NOT NULL,
+	deal_description VARCHAR(256) NOT NULL,
+	restaurant VARCHAR(256) NOT NULL,
+	day VARCHAR(64) NOT NULL,
+	time VARCHAR(64) NOT NULL
 );
