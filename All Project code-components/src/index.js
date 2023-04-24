@@ -306,13 +306,13 @@ app.get("/restaurant/:rid", async  (req, res) => {
 
 
 const RatingResult = {
-  Ok: 0,
+  NoReview: 0,
   UserHasReview: 1,
   DatabaseErr: 2
 }
 
 
-app.post("ratings/:rid/add", async (req, res) => {
+app.post("ratings/:rid", async (req, res) => {
 
   if(!exists(req.session.user)) {
       console.log("Handle error near line 310")
@@ -325,7 +325,7 @@ app.post("ratings/:rid/add", async (req, res) => {
   let duplicationQuerry = `SELECT * FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`;
   let [dupRes, data] = await db.any(duplicationQuerry).then(data => {
     if(data.length == 0) {
-      return [RatingResult.Ok, data]
+      return [RatingResult.NoReview, data]
     } else {
       return [RatingResult.UserHasReview, data]
     }
@@ -365,6 +365,51 @@ app.post("ratings/:rid/add", async (req, res) => {
   }
 
   await res.send("Added review!")
+})
+
+app.delete("ratings/:rid/add", async (req, res) => {
+  if(!exists(req.session.user)) {
+    console.log("Handle error near line 310")
+    await res.send("You must be signed in to post reviews");
+    return;
+}
+
+
+// check that the user does not allready have a review
+let duplicationQuerry = `SELECT * FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`;
+  let [dupRes, data] = await db.any(duplicationQuerry).then(data => {
+    if(data.length == 0) {
+      return [RatingResult.NoReview, data]
+    } else {
+      return [RatingResult.UserHasReview, data]
+    }
+  }).catch(err => {return [RatingResult.DatabaseErr, err]})
+
+  
+  if(dupRes == RatingResult.DatabaseErr) {
+    console.log("Handle error near line 390")
+    console.log(`Db err: ${data}`)
+
+    await res.send("A database error has occured");
+    return;
+  }
+
+
+  if(dupRes == RatingResult.NoReview) {
+    console.log("Handle error near line 399")
+    await res.send("User has no review to delete");
+    return;
+  }
+
+  let del_query = `DELETE FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`
+  let [dbErr, dbRes] = await db.any(del_query).then(dat => {[false, dat]}).catch(err => {[true, err]})
+  if(dbErr) {
+    console.log("handle err near line 407")
+    console.log(`db err: ${dbRes}`)
+    await res.send("A database error has occured")
+    return;
+  }
+  await res.send("Deleted successfully")
 })
 
 
