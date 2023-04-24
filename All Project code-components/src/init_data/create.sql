@@ -33,7 +33,7 @@ CREATE TABLE ratings(
 );
 
 DROP TABLE IF EXISTS events CASCADE;
-CREATE TABLE special_events(
+CREATE TABLE events(
 	event_id SERIAL NOT NULL PRIMARY KEY,
 	event_title VARCHAR(256) NOT NULL,
 	event_description VARCHAR(256) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE special_events(
 );
 
 DROP TABLE IF EXISTS deals CASCADE;
-CREATE TABLE special_events(
+CREATE TABLE deals(
 	deal_id SERIAL NOT NULL PRIMARY KEY,
 	deal_title VARCHAR(256) NOT NULL,
 	deal_description VARCHAR(256) NOT NULL,
