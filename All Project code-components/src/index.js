@@ -323,7 +323,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
     console.log(error);
   });
 
-  res.render("pages/restaurant", {restaurant_rating: review_avg, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
+  res.render("pages/Resturant", {restaurant_rating: review_avg, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
 })
 
 
