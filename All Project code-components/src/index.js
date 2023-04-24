@@ -305,6 +305,69 @@ app.get("/restaurant/:rid", async  (req, res) => {
 })
 
 
+const RatingResult = {
+  Ok: 0,
+  UserHasReview: 1,
+  DatabaseErr: 2
+}
+
+
+app.post("ratings/:rid/add", async (req, res) => {
+
+  if(!exists(req.session.user)) {
+      console.log("Handle error near line 310")
+      await res.send("You must be signed in to post reviews");
+      return;
+  }
+
+
+  // check that the user does not allready have a review
+  let duplicationQuerry = `SELECT * FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`;
+  let [dupRes, data] = await db.any(duplicationQuerry).then(data => {
+    if(data.length == 0) {
+      return [RatingResult.Ok, data]
+    } else {
+      return [RatingResult.UserHasReview, data]
+    }
+  }).catch(err => {return [RatingResult.DatabaseErr, err]})
+
+
+  if(dupRes == RatingResult.DatabaseErr) {
+    console.log("Handle error near line 336")
+    console.log(`Db err: ${data}`)
+
+    await res.send("A database error has occured");
+    return;
+  }
+
+  if(dupRes == RatingResult.UserHasReview) {
+    await res.send("User allready has review, perhaps you meant to update it?")
+    return;
+  }
+
+  if(!exists(req.body.rating)) {
+    console.log("handle err near line 349")
+    await res.send("Please send a \"rating\" object in the body of your message")
+    return;
+  }
+
+  let rating = req.body.rating
+  let now = Date.now()
+  let now_str = `to_timestamp(${now.toString()})`
+  // insert the review
+  let review_insert_querry = `INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_number, review) VALUES (${rid}, ${req.session.user.user_id}, ${now_str}, ${now_str}, ${rating.number}, '${rating.review}');` 
+  let [dbErr, dbRes] = await db.any(review_insert_querry).then(dat => {[false, dat]}).catch(err => {[true, err]})
+  if(dbErr) {
+    console.log("handle err near line 361")
+    console.log(`db err: ${dbRes}`)
+    await res.send("A database error has occured")
+    return;
+  }
+
+  await res.send("Added review!")
+})
+
+
 
 function exists(option) {
   return option != null || option != undefined;
