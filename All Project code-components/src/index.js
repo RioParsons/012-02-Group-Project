@@ -304,16 +304,19 @@ app.get("/restaurant/:rid", async  (req, res) => {
   //  }
   //]
 
+  /*
   var review_avg = 0;
+  console.log(r_data_db_res)
   r_data_db_res.forEach(element => {
     review_avg = review_avg + element.rating_number
   });
+  */
 
   const searchRequest = {
     location: 'boulder, co',
     name: r_data_db_res,
   };
-  let yelp_data = await client.search(searchRequest)
+  /*let yelp_data = await client.search(searchRequest)
   .then(results => {
     res.json({status: 'success'});
     console.log(results)
@@ -321,9 +324,9 @@ app.get("/restaurant/:rid", async  (req, res) => {
   .catch(error => {
     // Handle errors
     console.log(error);
-  });
+  });*/
 
-  res.render("pages/Resturant", {restaurant_rating: review_avg, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
+  res.render("pages/Resturant", {restaurant_rating: {}, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: {}})
 })
 
 
