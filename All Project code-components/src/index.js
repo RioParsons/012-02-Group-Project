@@ -269,6 +269,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(r_data_db_err) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 186")
+    console.log(r_data_db_res)
     await res.send("Database err")
     return;
   }
