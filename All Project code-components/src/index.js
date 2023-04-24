@@ -257,6 +257,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(!exists(req.params.rid)) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 174")
+    await res.send("Rid needs to exist")
     return;
   }
 
@@ -268,6 +269,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(r_data_db_err) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 186")
+    await res.send("Database err")
     return;
   }
 
@@ -277,6 +279,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(r_rev_db_err) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 195")
+    await res.send("Database err")
     return;
   }
   // Data in restaurant_data
@@ -301,7 +304,21 @@ app.get("/restaurant/:rid", async  (req, res) => {
   //  }
   //]
 
-  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res})
+  const searchRequest = {
+    location: 'boulder, co',
+    name: r_data_db_res,
+  };
+  let yelp_data = await client.search(searchRequest)
+  .then(results => {
+    res.json({status: 'success'});
+    console.log(results)
+  })
+  .catch(error => {
+    // Handle errors
+    console.log(error);
+  });
+
+  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
 })
 
 
