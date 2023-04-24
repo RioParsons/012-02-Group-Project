@@ -32,17 +32,22 @@ CREATE TABLE ratings(
 	review VARCHAR(1024)
 );
 
-DROP TABLE IF EXISTS restaurants_to_events CASCADE;
-CREATE TABLE restaurants_to_events(
-	restaurant_id INTEGER REFERENCES restaurants(restaurant_id) NOT NULL,
-	event_id INTEGER REFERENCES events(event_id) NOT NULL
-);
-
 DROP TABLE IF EXISTS events CASCADE;
 CREATE TABLE special_events(
 	event_id SERIAL NOT NULL PRIMARY KEY,
-	event_type VARCHAR(256) NOT NULL, 
 	event_title VARCHAR(256) NOT NULL,
+	event_description VARCHAR(256) NOT NULL,
+	restaurant VARCHAR(256) NOT NULL,
+	day VARCHAR(64) NOT NULL,
+	time VARCHAR(64) NOT NULL
+);
+
+DROP TABLE IF EXISTS deals CASCADE;
+CREATE TABLE special_events(
+	deal_id SERIAL NOT NULL PRIMARY KEY,
+	deal_title VARCHAR(256) NOT NULL,
+	deal_description VARCHAR(256) NOT NULL,
+	restaurant VARCHAR(256) NOT NULL,
 	day VARCHAR(64) NOT NULL,
 	time VARCHAR(64) NOT NULL
 );
