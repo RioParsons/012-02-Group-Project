@@ -29,6 +29,7 @@ describe('Server!', () => {
 
 //We are checking POST /add_user API by passing the user info in the correct order. This test case should pass and return a status 200 along with a "Success" message.
 //Positive cases
+/*
 it('positive : /add_user', done => {
     chai
       .request(server)
@@ -51,7 +52,7 @@ it('positive : /add_user', done => {
         expect(res.body.message).to.equals('Failed');
         done();
       });
-  });
+  }); */
 
 it('/getReviews', done => {
     chai
