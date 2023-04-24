@@ -55,7 +55,6 @@ INSERT INTO deals (deal_title, deal_description, restaurant, day, time) VALUES
 ('Happy Hour', 'Under $15 food specials, $6 draft beers, $10 cocktails, $9 house wines', 'Jills Restaurant at the St. Julien Hotel and Spa', 'Monday, Tuesday, Wednesday, Thursday, Friday', '3-6pm'),
 ('Happy Hour', '$6 house margarita, $7 specialty margaritas and cocktails, $3 cans, $4 drafts, $6 wine, $20-$22 56oz margaritas to share', 'My Neighbor Felix', 'Monday, Wednesday, Thursday, Friday', '3-6pm'),
 ('Happy Hour', '$5.50 beer, wine and sake, $4 nigiri and sashimi, $9 sushi rolls', 'Blofish', 'Monday, Tuesday, Wednesday, Thursday, Saturday, Sunday', '4-5:30pm'),
-('Happy Hour', "Screamin' deals on local craft brews, inventive cocktails, and patio pounders", 'Avanti Boulder', 'Monday, Tuesday, Wednesday, Thursday, Friday, Sunday', 'all day'),
 ('Happy Hour', 'Half-price apps and cheese plates, $2 off wine by the glass, $2 off draft beer, $2 off all wine cocktails', 'Wine Bar @ R Gallery', 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', '3-6pm'),
 ('Happy Hour', 'Discounted wines, cocktails, and beers, food specials', 'Rosetta Hall', 'Monday, Tuesday, Wednesday, Friday, Saturday, Sunday', '4-6pm'),
 ('Happy Hour', '$7.50 wines and cocktails', 'The Kitchen', 'Monday, Tuesday, Wednesday, Friday, Saturday, Sunday', '3-5pm'),
@@ -68,3 +67,4 @@ INSERT INTO deals (deal_title, deal_description, restaurant, day, time) VALUES
 ('Meal Combo', '$9.95 for 7” santa fe cheesesteak or thai tempeh, chips, and drink', 'Half-Fast Subs', 'Thursday', 'until 5pm'),
 ('Meal Combo', '$9.95 for 7” Creamy crab or tempeh reuben, chips, and drink', 'Half-Fast Subs', 'Friday', 'until 5pm'),
 ('Happy Hour', '$1.50 off every sandwich, $7.50 strongo and margarita pitchers, specials on pints of craft beer', 'Half-Fast Subs', 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', '3-6pm');
+
