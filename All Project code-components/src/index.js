@@ -185,7 +185,33 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/discover', (req, res) => {
-  res.render('pages/discover');
+
+  // Need to clarify how these queries will be written in next team meeting.
+  // const topRestaurantsQuery = ;
+  const highestRatedQuery = `SELECT r.name, r.image_url, AVG(rt.rating_number) AS average_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id ORDER BY average_rating DESC LIMIT 4;`;
+  // const weeksEventsQuery;
+  // const dailyDealsQuery;
+  
+  db.task('do-everything', task => {
+    return task.batch([
+      task.any(highestRatedQuery, []),
+      //task.any(topRestaurantsQuery, []),
+      //task.any(weeksEventsQuery, []),
+      //task.any(dailyDealsQuery, []),
+    ]) 
+  })
+    .then(function (data) {
+      console.log(data)
+      //console.log(data)
+      res.render('pages/discover', {data})
+    })
+    // if query execution fails
+    // send error message
+    .catch(function (err) {
+      console.log("failed")
+      res.render('pages/discover', {data})
+    });
+
 });
 
 app.get('/deals', (req, res) => {
