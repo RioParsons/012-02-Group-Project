@@ -186,18 +186,25 @@ app.post('/login', async (req, res) => {
 
 app.get('/discover', (req, res) => {
 
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  const date = new Date(Date.now());
+  //console.log(date);
+  const currentDay = days[date.getDay()];
+  //console.log(currentDay);
+
   // Need to clarify how these queries will be written in next team meeting.
-  // const topRestaurantsQuery = ;
-  const highestRatedQuery = `SELECT r.name, r.image_url, AVG(rt.rating_number) AS average_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id ORDER BY average_rating DESC LIMIT 4;`;
-  // const weeksEventsQuery;
-  // const dailyDealsQuery;
+  const topRestaurantsQuery = `SELECT r.restaurant_id, r.name, r.image_url, AVG(rt.rating_number) AS average_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id, r.name, r.image_url ORDER BY COUNT(rt.rating_id) DESC LIMIT 4;`;
+  const highestRatedQuery = `SELECT r.restaurant_id, r.name, r.image_url, AVG(rt.rating_number) AS average_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id, r.restaurant_id ORDER BY average_rating DESC LIMIT 4;`;
+  const weeksEventsQuery = `SELECT r.restaurant_id, r.name, r.image_url, e.event_title, AVG(rt.rating_number) AS avg_rating FROM restaurants AS r JOIN events AS e ON r.name = e.restaurant LEFT JOIN ratings AS rt ON r.restaurant_id = rt.restaurant_id WHERE e.day LIKE '%${currentDay}%' GROUP BY r.restaurant_id, r.name, r.image_url, e.event_title ORDER BY RANDOM() LIMIT 4;`;
+  const dailyDealsQuery = `SELECT r.restaurant_id, r.name, r.image_url, d.deal_title, AVG(rt.rating_number) AS avg_rating FROM restaurants AS r JOIN deals AS d ON r.name = d.restaurant LEFT JOIN ratings AS rt ON r.restaurant_id = rt.restaurant_id WHERE d.day LIKE '%${currentDay}%' GROUP BY r.restaurant_id, r.name, r.image_url, d.deal_title ORDER BY RANDOM() LIMIT 4;`;
   
   db.task('do-everything', task => {
     return task.batch([
+      task.any(topRestaurantsQuery, []),
       task.any(highestRatedQuery, []),
-      //task.any(topRestaurantsQuery, []),
-      //task.any(weeksEventsQuery, []),
-      //task.any(dailyDealsQuery, []),
+      task.any(weeksEventsQuery, []),
+      task.any(dailyDealsQuery, [])
     ]) 
   })
     .then(function (data) {

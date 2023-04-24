@@ -12,7 +12,11 @@ INSERT INTO restaurants (name, image_url, owner_id) VALUES
 ('Burger Joint', 'https://www.burgerjoint.com/images/burger.jpg', 1),
 ('Sushi House', 'https://www.sushihouse.com/images/sushi.jpg', 1),
 ('Taco Truck', 'https://www.tacotruck.com/images/taco.jpg', 1),
-('Thai Kitchen', 'https://www.thaikitchen.com/images/thai.jpg', 1);
+('Thai Kitchen', 'https://www.thaikitchen.com/images/thai.jpg', 1),
+('Mountain Sun Pub and Brewery', 'https://nothing.com', 1),
+('Sushi Zanmai', 'https://nothing.com', 1),
+('Gemini', 'https://nothing.com', 1),
+('Postino Boulder', 'https://nothing.com', 1);
 
 INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_number, review) VALUES 
 (1, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.5, 'I went to this place, and I did not have permision to read the menu...staff were helpful at least.'),
@@ -21,6 +25,7 @@ INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_numb
 (2, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.0, 'Amazing burgers, best I ever had!'),
 (2, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.0, 'Burgers were decent but nothing special.'),
 (2, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.5, 'Delicious burgers and great service.'),
+(2, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.5, 'Sheesh bruh'),
 (3, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.5, 'Excellent sushi, very fresh!'),
 (3, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.5, 'Sushi was good but not amazing.'),
 (4, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.0, 'Tacos were just okay, nothing special.'),
@@ -55,7 +60,7 @@ INSERT INTO deals (deal_title, deal_description, restaurant, day, time) VALUES
 ('Happy Hour', 'Under $15 food specials, $6 draft beers, $10 cocktails, $9 house wines', 'Jills Restaurant at the St. Julien Hotel and Spa', 'Monday, Tuesday, Wednesday, Thursday, Friday', '3-6pm'),
 ('Happy Hour', '$6 house margarita, $7 specialty margaritas and cocktails, $3 cans, $4 drafts, $6 wine, $20-$22 56oz margaritas to share', 'My Neighbor Felix', 'Monday, Wednesday, Thursday, Friday', '3-6pm'),
 ('Happy Hour', '$5.50 beer, wine and sake, $4 nigiri and sashimi, $9 sushi rolls', 'Blofish', 'Monday, Tuesday, Wednesday, Thursday, Saturday, Sunday', '4-5:30pm'),
-('Happy Hour', "Screamin' deals on local craft brews, inventive cocktails, and patio pounders", 'Avanti Boulder', 'Monday, Tuesday, Wednesday, Thursday, Friday, Sunday', 'all day'),
+('Happy Hour', 'Screamin deals on local craft brews, inventive cocktails, and patio pounders', 'Avanti Boulder', 'Monday, Tuesday, Wednesday, Thursday, Friday, Sunday', 'all day'),
 ('Happy Hour', 'Half-price apps and cheese plates, $2 off wine by the glass, $2 off draft beer, $2 off all wine cocktails', 'Wine Bar @ R Gallery', 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', '3-6pm'),
 ('Happy Hour', 'Discounted wines, cocktails, and beers, food specials', 'Rosetta Hall', 'Monday, Tuesday, Wednesday, Friday, Saturday, Sunday', '4-6pm'),
 ('Happy Hour', '$7.50 wines and cocktails', 'The Kitchen', 'Monday, Tuesday, Wednesday, Friday, Saturday, Sunday', '3-5pm'),
@@ -68,3 +73,9 @@ INSERT INTO deals (deal_title, deal_description, restaurant, day, time) VALUES
 ('Meal Combo', '$9.95 for 7” santa fe cheesesteak or thai tempeh, chips, and drink', 'Half-Fast Subs', 'Thursday', 'until 5pm'),
 ('Meal Combo', '$9.95 for 7” Creamy crab or tempeh reuben, chips, and drink', 'Half-Fast Subs', 'Friday', 'until 5pm'),
 ('Happy Hour', '$1.50 off every sandwich, $7.50 strongo and margarita pitchers, specials on pints of craft beer', 'Half-Fast Subs', 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', '3-6pm');
+
+INSERT INTO events (event_title, event_description, restaurant, day, time) VALUES
+('Trivia Night', 'Join us for a night of trivia and drinks!', 'Mountain Sun Pub and Brewery', 'Monday', '7:00 PM'),
+('Karaoke Night', 'Sing your heart out and enjoy some sushi!', 'Sushi Zanmai', 'Monday', '9:00 PM'),
+('Live Music', 'Enjoy live music and Thai food', 'Thai Kitchen', 'Monday', '6:00 PM'),
+('Happy Hour', 'Get discounts on pizza and drinks during happy hour', 'Pizza Palace', 'Monday', '4:00 PM');
