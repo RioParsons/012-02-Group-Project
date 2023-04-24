@@ -180,6 +180,11 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
+app.get('/deals', (req, res) => {
+  var logout = false;
+  res.render('/src/views/pages/deals', {deals});
+});
+
 // *****************************************************
 // <!-- Section 5 : Start Server-->
 // *****************************************************
