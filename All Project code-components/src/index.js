@@ -304,6 +304,11 @@ app.get("/restaurant/:rid", async  (req, res) => {
   //  }
   //]
 
+  var review_avg = 0;
+  r_data_db_res.forEach(element => {
+    review_avg = review_avg + element.rating_number
+  });
+
   const searchRequest = {
     location: 'boulder, co',
     name: r_data_db_res,
@@ -318,7 +323,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
     console.log(error);
   });
 
-  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
+  res.render("pages/restaurant", {restaurant_rating: review_avg, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
 })
 
 
@@ -428,34 +433,6 @@ app.delete("ratings/:rid", async (req, res) => {
   
   await res.send("Deleted successfully")
 });
-
-app.put("ratings/:rid", async (req, res) => {
-  if(!exists(req.session.user)) {
-    console.log("Handle error near line 417")
-    await res.send("You must be signed in to post reviews");
-    return;
-  }
-
-  if(!exists(req.body.rating)) {
-    await res.send("You must supply a \"rating\" object.")
-    return;
-  }
-
-  let now = Date.now()
-  let now_str = `to_timestamp(${now.toString()})`
-  // insert the review
-  let review_update_querry = `UPDATE ratings SET last_updated=${now_str}, rating_number=${rating.number}, review='${rating.review}' WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};` 
-  let [dbErr, dbRes] = await db.any(review_update_querry).then(dat => {[false, dat]}).catch(err => {[true, err]})
-  if(dbErr) {
-    console.log("handle err near line 433")
-    console.log(`db err: ${dbRes}`)
-    await res.send("A database error has occured")
-    return;
-  }
-
-
-  await res.send("Updated sucessfully")
-})
 
 
 function exists(option) {
