@@ -257,6 +257,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(!exists(req.params.rid)) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 174")
+    await res.send("Rid needs to exist")
     return;
   }
 
@@ -268,6 +269,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(r_data_db_err) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 186")
+    await res.send("Database err")
     return;
   }
 
@@ -277,6 +279,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(r_rev_db_err) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 195")
+    await res.send("Database err")
     return;
   }
   // Data in restaurant_data
@@ -301,9 +304,158 @@ app.get("/restaurant/:rid", async  (req, res) => {
   //  }
   //]
 
-  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res})
+  const searchRequest = {
+    location: 'boulder, co',
+    name: r_data_db_res,
+  };
+  let yelp_data = await client.search(searchRequest)
+  .then(results => {
+    res.json({status: 'success'});
+    console.log(results)
+  })
+  .catch(error => {
+    // Handle errors
+    console.log(error);
+  });
+
+  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
 })
 
+
+const RatingResult = {
+  NoReview: 0,
+  UserHasReview: 1,
+  DatabaseErr: 2
+}
+
+
+app.post("ratings/:rid", async (req, res) => {
+
+  if(!exists(req.session.user)) {
+      console.log("Handle error near line 318")
+      await res.send("You must be signed in to post reviews");
+      return;
+  }
+
+
+  // check that the user does not allready have a review
+  let duplicationQuerry = `SELECT * FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`;
+  let [dupRes, data] = await db.any(duplicationQuerry).then(data => {
+    if(data.length == 0) {
+      return [RatingResult.NoReview, data]
+    } else {
+      return [RatingResult.UserHasReview, data]
+    }
+  }).catch(err => {return [RatingResult.DatabaseErr, err]})
+
+
+  if(dupRes == RatingResult.DatabaseErr) {
+    console.log("Handle error near line 336")
+    console.log(`Db err: ${data}`)
+
+    await res.send("A database error has occured");
+    return;
+  }
+
+  if(dupRes == RatingResult.UserHasReview) {
+    await res.send("User allready has review, perhaps you meant to update it?")
+    return;
+  }
+
+  if(!exists(req.body.rating)) {
+    console.log("handle err near line 349")
+    await res.send("Please send a \"rating\" object in the body of your message")
+    return;
+  }
+
+  let rating = req.body.rating
+  let now = Date.now()
+  let now_str = `to_timestamp(${now.toString()})`
+  // insert the review
+  let review_insert_querry = `INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_number, review) VALUES (${rid}, ${req.session.user.user_id}, ${now_str}, ${now_str}, ${rating.number}, '${rating.review}');` 
+  let [dbErr, dbRes] = await db.any(review_insert_querry).then(dat => {[false, dat]}).catch(err => {[true, err]})
+  if(dbErr) {
+    console.log("handle err near line 361")
+    console.log(`db err: ${dbRes}`)
+    await res.send("A database error has occured")
+    return;
+  }
+
+  await res.send("Added review!")
+});
+
+app.delete("ratings/:rid", async (req, res) => {
+  if(!exists(req.session.user)) {
+    console.log("Handle error near line 310")
+    await res.send("You must be signed in to post reviews");
+    return;
+  }
+  
+  // check that the user does allready have a review
+  let [dupRes, data] = await db.any(duplicationQuerry).then(data => {
+  let duplicationQuerry = `SELECT * FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`;
+  if(data.length == 0) {
+    return [RatingResult.NoReview, data]
+  } else {
+    return [RatingResult.UserHasReview, data]
+  }
+  }).catch(err => {return [RatingResult.DatabaseErr, err]})
+
+
+  if(dupRes == RatingResult.DatabaseErr) {
+    console.log("Handle error near line 390")
+    console.log(`Db err: ${data}`)
+
+    await res.send("A database error has occured");
+    return;
+  }
+
+
+  if(dupRes == RatingResult.NoReview) {
+    console.log("Handle error near line 399")
+    await res.send("User has no review to delete");
+    return;
+  }
+
+  let del_query = `DELETE FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`
+  let [dbErr, dbRes] = await db.any(del_query).then(dat => {[false, dat]}).catch(err => {[true, err]})
+  if(dbErr) {
+    console.log("handle err near line 407")
+    console.log(`db err: ${dbRes}`)
+    await res.send("A database error has occured")
+    return;
+  }
+  
+  await res.send("Deleted successfully")
+});
+
+app.put("ratings/:rid", async (req, res) => {
+  if(!exists(req.session.user)) {
+    console.log("Handle error near line 417")
+    await res.send("You must be signed in to post reviews");
+    return;
+  }
+
+  if(!exists(req.body.rating)) {
+    await res.send("You must supply a \"rating\" object.")
+    return;
+  }
+
+  let now = Date.now()
+  let now_str = `to_timestamp(${now.toString()})`
+  // insert the review
+  let review_update_querry = `UPDATE ratings SET last_updated=${now_str}, rating_number=${rating.number}, review='${rating.review}' WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};` 
+  let [dbErr, dbRes] = await db.any(review_update_querry).then(dat => {[false, dat]}).catch(err => {[true, err]})
+  if(dbErr) {
+    console.log("handle err near line 433")
+    console.log(`db err: ${dbRes}`)
+    await res.send("A database error has occured")
+    return;
+  }
+
+
+  await res.send("Updated sucessfully")
+})
 
 
 function exists(option) {
