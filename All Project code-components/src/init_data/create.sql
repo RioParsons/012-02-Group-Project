@@ -13,6 +13,16 @@ CREATE TABLE owners(
 	owner_id INTEGER REFERENCES users(user_id)
 );
 
+DROP TABLE IF EXISTS deals CASCADE;
+CREATE TABLE deals(
+	deal_id SERIAL NOT NULL PRIMARY KEY,
+	deal_title VARCHAR(256) NOT NULL,
+	deal_description VARCHAR(256) NOT NULL,
+	restaurant_id INTEGER REFERENCES restaurants(restaurant_id) NOT NULL,
+	day VARCHAR(64) NOT NULL,
+	time VARCHAR(64) NOT NULL
+);
+
 DROP TABLE IF EXISTS restaurants CASCADE;
 CREATE TABLE restaurants(
 	restaurant_id SERIAL NOT NULL PRIMARY KEY,
@@ -37,17 +47,9 @@ CREATE TABLE events(
 	event_id SERIAL NOT NULL PRIMARY KEY,
 	event_title VARCHAR(256) NOT NULL,
 	event_description VARCHAR(256) NOT NULL,
-	restaurant VARCHAR(256) NOT NULL,
+	restaurant_id INTEGER REFERENCES restaurants(restaurant_id) NOT NULL,
 	day VARCHAR(64) NOT NULL,
 	time VARCHAR(64) NOT NULL
 );
 
-DROP TABLE IF EXISTS deals CASCADE;
-CREATE TABLE deals(
-	deal_id SERIAL NOT NULL PRIMARY KEY,
-	deal_title VARCHAR(256) NOT NULL,
-	deal_description VARCHAR(256) NOT NULL,
-	restaurant VARCHAR(256) NOT NULL,
-	day VARCHAR(64) NOT NULL,
-	time VARCHAR(64) NOT NULL
-);
+
