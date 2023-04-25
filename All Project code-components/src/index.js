@@ -58,6 +58,31 @@ app.use(
   })
 );
 
+
+const events = `
+  SELECT DISTINCT
+    events.event_id,
+    events.event_title,
+    events.event_description,
+    events.restaurant,
+    events.day,
+    events.time AS events
+  FROM 
+    events
+`
+
+const deals = `
+  SELECT DISTINCT
+    deals.deal_id,
+    deals.deal_title,
+    deals.deal_description,
+    deals.restaurant,
+    deals.day,
+    deals.time AS deals
+  FROM 
+    deals
+`
+
 // *****************************************************
 // <!-- Section 4 : API Routes -->
 // *****************************************************
@@ -223,7 +248,30 @@ app.get('/calendar', (req, res) => {
 });
 
 app.get('/events', (req, res) => {
-  res.render('pages/events');
+  const events = `SELECT 
+    events.event_title, 
+    events.day,
+    events.time,
+    restaurants.image_url,
+    restaurants.name AS restaurant_name
+   FROM 
+    events 
+    JOIN restaurants ON events.restaurant_id = restaurants.restaurant_id
+   ORDER BY time ASC;`;
+
+  db.task('do-everything', task =>{
+    return task.batch([
+      task.any(events, []),
+    ])
+  })
+    .then(function(data){
+      console.log(data)
+      res.render('pages/events', {data})
+    })
+    .catch(function (err){
+      console.log("failed")
+      res.render('pages/deals', {data})
+    });
 });
 
 app.get('/getReviews', (req, res) => {
