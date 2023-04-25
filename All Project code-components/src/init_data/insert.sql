@@ -17,7 +17,7 @@ INSERT INTO restaurants (restaurant_id, name, image_url, owner_id) VALUES
 (8, 'Postino Boulder', 'https://www.postinowinecafe.com/wp-content/uploads/2022/07/JTP_1492-scaled.jpg', 1),
 (9, 'Gemini', 'https://th.bing.com/th/id/OIP.W0GrfOMS4bnpiLDVWrRrRQHaE7?w=225&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
 (10, 'Pizzeria Alberico', 'https://th.bing.com/th/id/OIP.jEo1rSBq5qNMn0RKkoUNewHaDc?w=293&h=162&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
-(11, "Illegal Pete's", 'https://www.illegalpetes.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fus85d44kmlcd%2F6tAjV8rTChn8NVwbL8SeFY%2Fa368a0bfb8970b425c932ca0527725ee%2FaIrzc7eFTTidOtfZ2YuQ_IMG_2083.jpeg&w=1920&q=75', 1),
+(11, 'Illegal Petes', 'https://www.illegalpetes.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fus85d44kmlcd%2F6tAjV8rTChn8NVwbL8SeFY%2Fa368a0bfb8970b425c932ca0527725ee%2FaIrzc7eFTTidOtfZ2YuQ_IMG_2083.jpeg&w=1920&q=75', 1),
 (12, 'Sushi Zanmai', 'https://th.bing.com/th/id/OIP.qC3srQrDgo0QlAloxR6A1AHaFj?pid=ImgDet&rs=1', 1),
 (13, 'Mateo', 'https://usmenuguide.com/wp-content/uploads/2019/07/mateoboulder1.jpg', 1),
 (14, 'ND Street Bar', 'https://th.bing.com/th/id/OIP.Pq90jImAX_YCoBxTAq_IpQHaE7?w=259&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
@@ -52,7 +52,7 @@ INSERT INTO restaurants (restaurant_id, name, image_url, owner_id) VALUES
 (43, 'Bohemian Biergarten', 'https://images.squarespace-cdn.com/content/v1/5a78e8f26957da4eb85f39fd/1651861671074-S21AF9TDM4OIZSTBYKO2/image-asset.jpeg?format=500w', 1),
 (44, 'Asher Brewing', 'https://images.squarespace-cdn.com/content/v1/5db353a1f6f77b7cb1322122/1573695394916-VJIK3PYIA2DRV2SI169Q/home-taproom.jpg?format=750w', 1),
 (45, 'Twisted Pine Brewing', 'https://images.squarespace-cdn.com/content/v1/568bfc1cc647ad1e51802932/1452803674506-ITCZKSAPV97IHX12HUGY/Twisted+Pine+Logo?format=1000w', 1),
-(46, "Foolish Craig's", 'https://static.spotapps.co/web/foolishcraigs--com/custom/about_us_right.jpg', 1),
+(46, 'Foolish Craigs', 'https://static.spotapps.co/web/foolishcraigs--com/custom/about_us_right.jpg', 1),
 (47, 'Backcountry Pizza and Tap House', 'https://fastly.4sqi.net/img/general/200x200/39969208_6sKQr8Ujz6_5sSJsKF9JSJDfNMshsvr1ruy2pZ4XbNU.jpg', 1),
 (48, 'Liquid Mechanics Brewing Co', 'https://images.squarespace-cdn.com/content/v1/536c3c6de4b0627babc2f819/1408311837918-4OPSTUJCKTSCR48N77C1/music+grand+opening.jpg?format=1500w', 1),
 (49, 'Upslope Brewing', 'https://upslopebrewing.com/wp-content/uploads/2017/05/Tap-Room-Bar-Pic-Web.png', 1),
@@ -72,7 +72,7 @@ INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_numb
 (5, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.0, 'Amazing Thai food, highly recommend!'),
 (5, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.5, 'Good Thai food, but a bit too spicy for my taste.');
 
-INSERT INTO deals (deal_title, deal_description, restaurant, day, time) VALUES
+INSERT INTO deals (deal_title, deal_description, restaurant_id, day, time) VALUES
 ('Happy Hour', '$1.50 Off House Pints and $1.50 Off House Margaritas', 7, 'Monday, Tuesday, Wednesday, Thursday, Friday', '3-5pm'),
 ('Happy Hour', '$6 Glasses of wine and pitcher of beer', 8, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', 'Until 5pm'),
 ('Happy Hour', '$25 bottle of wine and bruschetta board', 8, 'Tuesday, Wednesday', 'After 8pm'),
@@ -86,7 +86,7 @@ INSERT INTO deals (deal_title, deal_description, restaurant, day, time) VALUES
 ('Happy Hour', 'Food specials, $8 classic Rio Margs, $3 draft beers and cans, $5 wine', 16, 'Monday, Tuesday, Wednesday, Thursday, Friday', '3-6pm'),
 ('Happy Hour', '$3-$11 small plates, $8-$10 cocktails, $6-$10 wine, $4 draft beer', 17, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', '3-6pm'),
 ('Happy hour', '$3 street tacos, $4 draft beer, $5 house marg', 18, 'Monday, Wednesday, Thursday, Friday, Saturday, Sunday', '2-5pm'),
-('Happy Hour', "Food specials, $2 off all special rolls, $5 Avery Seasonal Draft, $8 House Wine & Well Cocktails, $6/$9 Hot Sake (S/L), $9 Cold Sake (L), $9 bartender's choice cocktail and sangria", 19, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', 'All day'),
+('Happy Hour', 'Food specials, $2 off all special rolls, $5 Avery Seasonal Draft, $8 House Wine & Well Cocktails, $6/$9 Hot Sake (S/L), $9 Cold Sake (L), $9 bartenders choice cocktail and sangria', 19, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', 'All day'),
 ('Happy Hour', 'Food specials, $4 Hapa beer, $6.50 hot sake, $7.50 fresh fruit infused sake, $8 sake cocktails, $8 well drinks, $12 sake bombs, $13.50 sake drop', 20, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday', '2-4:30pm'),
 ('Happy Hour', 'Food specials, $4 well cocktails, drafts and wines, $5 fat alberts', 21, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', '3-6pm'),
 ('Happy Hour', 'Food specials, under $6 cocktails, $7 house wine, $1 off all draft beers', 22, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', '3:30-5pm'),
@@ -99,7 +99,7 @@ INSERT INTO deals (deal_title, deal_description, restaurant, day, time) VALUES
 ('Happy Hour', 'Under $15 food specials, $6 draft beers, $10 cocktails, $9 house wines', 29, 'Monday, Tuesday, Wednesday, Thursday, Friday', '3-6pm'),
 ('Happy Hour', '$6 house margarita, $7 specialty margaritas and cocktails, $3 cans, $4 drafts, $6 wine, $20-$22 56oz margaritas to share', 30, 'Monday, Wednesday, Thursday, Friday', '3-6pm'),
 ('Happy Hour', '$5.50 beer, wine and sake, $4 nigiri and sashimi, $9 sushi rolls', 31, 'Monday, Tuesday, Wednesday, Thursday, Saturday, Sunday', '4-5:30pm'),
-('Happy Hour', "Screamin' deals on local craft brews, inventive cocktails, and patio pounders", 32, 'Monday, Tuesday, Wednesday, Thursday, Friday, Sunday', 'All day'),
+('Happy Hour', 'Screamin deals on local craft brews, inventive cocktails, and patio pounders', 32, 'Monday, Tuesday, Wednesday, Thursday, Friday, Sunday', 'All day'),
 ('Happy Hour', 'Half-price apps and cheese plates, $2 off wine by the glass, $2 off draft beer, $2 off all wine cocktails', 33, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', '3-6pm'),
 ('Happy Hour', 'Discounted wines, cocktails, and beers, food specials', 34, 'Monday, Tuesday, Wednesday, Friday, Saturday, Sunday', '4-6pm'),
 ('Happy Hour', '$7.50 wines and cocktails', 35, 'Monday, Tuesday, Wednesday, Friday, Saturday, Sunday', '3-5pm'),

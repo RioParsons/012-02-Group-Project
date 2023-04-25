@@ -36,7 +36,7 @@ DROP TABLE IF EXISTS deals CASCADE;
 CREATE TABLE deals(
 	deal_id SERIAL NOT NULL PRIMARY KEY,
 	deal_title VARCHAR(256) NOT NULL,
-	deal_description VARCHAR(256) NOT NULL,
+	deal_description VARCHAR(512) NOT NULL,
 	restaurant_id INTEGER REFERENCES restaurants(restaurant_id) NOT NULL,
 	day VARCHAR(64) NOT NULL,
 	time VARCHAR(64) NOT NULL
