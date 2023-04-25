@@ -6,13 +6,46 @@ VALUES
 INSERT INTO owners (owner_id) VALUES 
 (1);
 
-INSERT INTO restaurants (name, image_url, owner_id) VALUES
-('Admins cool empty place', 'nowhere.com', 1),
-('Pizza Palace', 'https://www.pizzapalace.com/images/pizza.jpg', 1),
-('Burger Joint', 'https://www.burgerjoint.com/images/burger.jpg', 1),
-('Sushi House', 'https://www.sushihouse.com/images/sushi.jpg', 1),
-('Taco Truck', 'https://www.tacotruck.com/images/taco.jpg', 1),
-('Thai Kitchen', 'https://www.thaikitchen.com/images/thai.jpg', 1);
+INSERT INTO restaurants (restaurant_id, name, image_url, owner_id) VALUES
+(1, 'Admins cool empty place', 'nowhere.com', 1),
+(2, 'Pizza Palace', 'https://www.pizzapalace.com/images/pizza.jpg', 1),
+(3, 'Burger Joint', 'https://www.burgerjoint.com/images/burger.jpg', 1),
+(4, 'Sushi House', 'https://www.sushihouse.com/images/sushi.jpg', 1),
+(5, 'Taco Truck', 'https://www.tacotruck.com/images/taco.jpg', 1),
+(6, 'Thai Kitchen', 'https://www.thaikitchen.com/images/thai.jpg', 1),
+(7, 'Mountain Sun Pub and Brewery', 'https://images.getbento.com/accounts/8717715d71a330b4c7747d83e7a8b809/media/images/88450logo2.png', 1),
+(8, 'Postino Boulder', 'https://www.postinowinecafe.com/wp-content/uploads/2022/07/JTP_1492-scaled.jpg', 1),
+(9, 'Gemini', 'https://th.bing.com/th/id/OIP.W0GrfOMS4bnpiLDVWrRrRQHaE7?w=225&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(10, 'Pizzeria Alberico', 'https://th.bing.com/th/id/OIP.jEo1rSBq5qNMn0RKkoUNewHaDc?w=293&h=162&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(11, "Illegal Pete's", 'https://www.illegalpetes.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fus85d44kmlcd%2F6tAjV8rTChn8NVwbL8SeFY%2Fa368a0bfb8970b425c932ca0527725ee%2FaIrzc7eFTTidOtfZ2YuQ_IMG_2083.jpeg&w=1920&q=75', 1),
+(12, 'Sushi Zanmai', 'https://th.bing.com/th/id/OIP.qC3srQrDgo0QlAloxR6A1AHaFj?pid=ImgDet&rs=1', 1),
+(13, 'Mateo', 'https://usmenuguide.com/wp-content/uploads/2019/07/mateoboulder1.jpg', 1),
+(14, 'ND Street Bar', 'https://th.bing.com/th/id/OIP.Pq90jImAX_YCoBxTAq_IpQHaE7?w=259&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(15, 'Gaku Ramen', 'http://gakuramen.com/wp-content/uploads/2022/08/PXL_20220814_155829904.MP_.jpg', 1),
+(16, 'Rio Grande Mexican Restaurant', 'https://th.bing.com/th/id/R.15cce5786305048b07d062039a03d8cf?rik=XdxmNpK%2fJXvfYg&riu=http%3a%2f%2fimg2.10bestmedia.com%2fImages%2fPhotos%2f212305%2frio2_54_990x660_201406010006.jpg&ehk=O6ZLB6TX1gsPx9I9FCFnT4ckMZaQKtE3bF%2bIOZIf41Q%3d&risl=&pid=ImgRaw&r=0', 1),
+(17, 'Spruce Farm & Fish', 'https://th.bing.com/th/id/OIP.triYA68v4s5VsSLshp23xAHaE8?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(18, 'T/ACO', 'https://static.spotapps.co/spots/a8/1c86141cb64278955362209a888e94/medium', 1),
+(19, 'Japango', 'https://th.bing.com/th/id/OIP.KJcsVx7tZpfFTK15CtBZggHaHa?w=198&h=198&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(20, 'Hapa Sushi Grill and Sake Bar', 'https://th.bing.com/th/id/OIP.ku2oa_woOpu6Nk9GQI5YegHaE7?w=303&h=202&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(21, 'The Attic Bar and Bistro', 'https://th.bing.com/th/id/R.8eff620e380a5299a3a2e96c6da07257?rik=5NSEAUxFR9rihA&pid=ImgRaw&r=0', 1),
+(22, 'Jax Fish House', 'https://th.bing.com/th/id/OIP.IR_vFMTxhL6uza_UV7LDRAHaFc?w=268&h=197&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(23, 'The Post Chicken & Beer', 'https://th.bing.com/th/id/OIP.3sJbXwZ5fstCoYFqN_oHMQHaE8?pid=ImgDet&rs=1', 1),
+(24, 'Sforno Trattoria Romana', 'https://th.bing.com/th/id/OIP.CbQspUkG7DITKaTGpgMmdAHaFM?w=252&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(25, 'Jungle Tiki Bar', 'https://images.squarespace-cdn.com/content/v1/5d1c28103f8e880001294f05/a2716916-7c14-468f-bae7-7407508bf852/IMG_0933+%281%29.jpg?format=1000w', 1),
+(26, 'The Corner Bar', 'https://th.bing.com/th/id/OIP.yH1skFN4Woqm0tmX1se6DwHaE8?w=297&h=198&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(27, 'The Bitter Bar', 'https://th.bing.com/th/id/OIP.YZ12Eo3_xFD9R-nT94dcQQHaFj?w=254&h=190&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(28, 'Centro Mexican Kitchen', 'https://th.bing.com/th/id/OIP.9pzwIU5S5hcY0iED0o2ZhAHaE8?w=257&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(29, 'Jills Restaurant at the St. Julien Hotel and Spa', 'https://stjulien.com/wp-content/uploads/2022/08/jills-restaurant.jpg', 1),
+(30, 'My Neighbor Felix', 'https://img.ctykit.com/cdn/co-boulder/images/tr:w-1800/my-neighbor-felix-2022.jpg', 1),
+(31, 'Blofish', 'https://th.bing.com/th/id/OIP.hcCQ6IftAdAnC-jvDvAPlwHaE8?w=306&h=204&c=7&r=0&o=5&dpr=1.3&pid=1.7', 1),
+(32, 'Avanti', 'https://boulder.avantifandb.com/wp-content/uploads/sites/2/2021/09/013_AvantiBoulder_Aerials_2021_72DPI-scaled.jpg', 1),
+(33, 'R Gallery and Wine Bar', 'https://cdn.shopify.com/s/files/1/0024/0291/0254/files/IMG_20230311_130634_1.jpg?v=1678565457', 1),
+(34, 'Rosetta Hall', 'https://rosettahall.com/wp-content/uploads/2021/08/Hall-Wide-16x9-jpg.jpg', 1),
+(35, 'The Kitchen', 'https://images.getbento.com/accounts/b9ac9c2a03aa88821e13be3ead0f2d60/media/images/82589489A6387-2.jpg?w=1200&fit=crop&auto=compress,format&crop=focalpoint&fp-x=0.5&fp-y=0.5', 1),
+(36, 'Chicken on the Hill', 'https://lh3.googleusercontent.com/p/AF1QipMmGE_4xOf-tzCbr1XQ-2v1Usg7yzj6-pfsC5jy=w960-h960-n-o-v1', 1),
+(37, 'Half Fast Subs', 'https://media-cdn.tripadvisor.com/media/photo-p/15/14/f2/6a/photo2jpg.jpg', 1);
+
+
 
 INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_number, review) VALUES 
 (1, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.5, 'I went to this place, and I did not have permision to read the menu...staff were helpful at least.'),
