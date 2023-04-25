@@ -58,8 +58,6 @@ INSERT INTO restaurants (restaurant_id, name, image_url, owner_id) VALUES
 (49, 'Upslope Brewing', 'https://upslopebrewing.com/wp-content/uploads/2017/05/Tap-Room-Bar-Pic-Web.png', 1),
 (50, 'License No. 1', 'https://images.squarespace-cdn.com/content/v1/6091b19ba5da29701edc5ada/9963aa6c-8120-4c70-a996-a2cac0b15868/LNO_Space+37_Tim+RomanoEdit.jpg', 1);
 
-
-
 INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_number, review) VALUES 
 (1, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.5, 'I went to this place, and I did not have permision to read the menu...staff were helpful at least.'),
 (1, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.5, 'Great pizza! Definitely recommend.'),
