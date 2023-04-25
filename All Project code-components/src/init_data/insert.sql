@@ -43,7 +43,20 @@ INSERT INTO restaurants (restaurant_id, name, image_url, owner_id) VALUES
 (34, 'Rosetta Hall', 'https://rosettahall.com/wp-content/uploads/2021/08/Hall-Wide-16x9-jpg.jpg', 1),
 (35, 'The Kitchen', 'https://images.getbento.com/accounts/b9ac9c2a03aa88821e13be3ead0f2d60/media/images/82589489A6387-2.jpg?w=1200&fit=crop&auto=compress,format&crop=focalpoint&fp-x=0.5&fp-y=0.5', 1),
 (36, 'Chicken on the Hill', 'https://lh3.googleusercontent.com/p/AF1QipMmGE_4xOf-tzCbr1XQ-2v1Usg7yzj6-pfsC5jy=w960-h960-n-o-v1', 1),
-(37, 'Half Fast Subs', 'https://media-cdn.tripadvisor.com/media/photo-p/15/14/f2/6a/photo2jpg.jpg', 1);
+(37, 'Half Fast Subs', 'https://media-cdn.tripadvisor.com/media/photo-p/15/14/f2/6a/photo2jpg.jpg', 1),
+(38, 'Tuneup Tavern', 'https://static.spotapps.co/spots/06/731ae49fb547e6a84e2870c140520c/wide_medium', 1),
+(39, 'Outback Saloon', 'https://media-cdn.tripadvisor.com/media/photo-s/10/44/31/94/dining-tables-and-pool.jpg', 1),
+(40, 'Boulder Social', 'https://images.squarespace-cdn.com/content/v1/623335a3093b0c241d18f00a/810d64b3-af17-4e2f-8b22-b3d5a3070296/_DSC8414.jpg?format=750w', 1),
+(41, 'Dark Horse', 'https://media1.westword.com/den/imager/u/golden-m/15492527/darkhorse_11.jpg?cb=1668719063', 1),
+(42, 'Sanitas Brewing', 'https://static.spotapps.co/spots/ca/e395d503804f109a9ee97b72dd97da/medium', 1),
+(43, 'Bohemian Biergarten', 'https://images.squarespace-cdn.com/content/v1/5a78e8f26957da4eb85f39fd/1651861671074-S21AF9TDM4OIZSTBYKO2/image-asset.jpeg?format=500w', 1),
+(44, 'Asher Brewing', 'https://images.squarespace-cdn.com/content/v1/5db353a1f6f77b7cb1322122/1573695394916-VJIK3PYIA2DRV2SI169Q/home-taproom.jpg?format=750w', 1),
+(45, 'Twisted Pine Brewing', 'https://images.squarespace-cdn.com/content/v1/568bfc1cc647ad1e51802932/1452803674506-ITCZKSAPV97IHX12HUGY/Twisted+Pine+Logo?format=1000w', 1),
+(46, "Foolish Craig's", 'https://static.spotapps.co/web/foolishcraigs--com/custom/about_us_right.jpg', 1),
+(47, 'Backcountry Pizza and Tap House', 'https://fastly.4sqi.net/img/general/200x200/39969208_6sKQr8Ujz6_5sSJsKF9JSJDfNMshsvr1ruy2pZ4XbNU.jpg', 1),
+(48, 'Liquid Mechanics Brewing Co', 'https://images.squarespace-cdn.com/content/v1/536c3c6de4b0627babc2f819/1408311837918-4OPSTUJCKTSCR48N77C1/music+grand+opening.jpg?format=1500w', 1),
+(49, 'Upslope Brewing', 'https://upslopebrewing.com/wp-content/uploads/2017/05/Tap-Room-Bar-Pic-Web.png', 1),
+(50, 'License No. 1', 'https://images.squarespace-cdn.com/content/v1/6091b19ba5da29701edc5ada/9963aa6c-8120-4c70-a996-a2cac0b15868/LNO_Space+37_Tim+RomanoEdit.jpg', 1);
 
 
 
