@@ -1,0 +1,76 @@
+<%- include ('../partials/head') %>
+<%- include ('../partials/menu') %>
+
+<main>
+    <div class="container">
+        <div id="reviews" class="review-section">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="stars-counters">
+                        <tbody>
+                          <!--                    YELP Images          -->
+                          <img src="..." alt="Thumbnail Image" class="img-thumbnail">
+                            <tr class="">
+                          
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 Resturant-Style rounded-border">
+                <!-- get data for yelp -->
+                    <!--    Resturant Name              -->
+                  <h1> Resturant Name </h1>
+                    <!-- show address -->
+                  <h3> Address </h3>
+    
+                    <!-- show YELP rating -->
+                  <h5> Yelp Rating: 4.4/5 </h5>
+                  
+                    <!-- show our rating -->
+                  <h5> CC Rating: 4.5/5 </h5>
+      
+                   <!-- show phone number -->
+                  <h6> (123) 456-7890 </h6>
+    
+                    <!-- show operating hours -->
+                  <h6> Open Now/ Closed Now </h6>
+                  <h6> Mon - Fri: 5 - 10 PM </h6>
+                    <!-- show reviews -->
+                  
+                </div>
+            </div>
+        </div>
+    
+        <div class="review-list">
+            <ul>
+                <li>
+                    <div class="d-flex">
+                        <div class="right">
+                            <% resturant_reviews.forEach(function(item) { %>
+                                
+                            <h4>
+                                <!-- Figure out how to show display name -->
+                                <%= item.username %>
+                                <span class="gig-rating text-body-2">
+                                    
+                                    <%= item.rating_number %> /5
+                                </span>
+                            </h4>
+                            
+                            <div class="review-description">
+                                <p>
+                                    <%= item.review %>
+                                </p>
+                            </div>
+                            <%  })   %>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+      </body>
+    
+</main>
+
+<%- include ('../partials/footer') %>
