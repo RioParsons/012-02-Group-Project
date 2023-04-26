@@ -29,18 +29,90 @@
             </div>
         </div>
         <div class="container px-4 px-lg-5 mt-5" id="eventsList">
-            <h2> Monday's Events</h2>
+            <% const date = new Date(); %>
+            <% let date_str = ""; %>
+            <% let day = date.getDate(); %>
+            <% let month = date.getMonth() + 1; %>
+            <% let weekday = date.getDay(); %>
+            <% let wday_str = ""; %>
+
+            <% console.log(date); %>
+            <% console.log(day); %>
+            <% console.log(month); %>
+            <% console.log(weekday); %>
+
+            <% if (weekday == 0) { %>
+                <% date_str = "Sunday, "; %>
+                <% wday_str = "Sunday"; %>
+            <% } else if(weekday == 1) { %>
+                <% date_str = "Monday, "; %>
+                <% wday_str = "Monday"; %>
+            <% } else if(weekday == 2) { %>
+                <% date_str = "Tuesday, "; %>
+                <% wday_str = "Tuesday"; %>
+            <% } else if(weekday == 3) { %>
+                <% date_str = "Wednesday, "; %>
+                <% wday_str = "Wednesday"; %>
+            <% } else if(weekday == 4) { %>
+                <% date_str = "Thursday, "; %>
+                <% wday_str = "Thursday"; %>
+            <% } else if(weekday == 5) { %>
+                <% date_str = "Friday, "; %>
+                <% wday_str = "Friday"; %>
+            <% } else if(weekday == 6) { %>
+                <% date_str = "Saturday, "; %>
+                <% wday_str = "Saturday"; %>
+            <% } else { %>
+                <% date_str = "ERROR, "; %>
+            <% } %>
+            
+            <% if(month == 1) { %>
+                <% date_str = date_str.concat("January "); %>
+            <% } else if (month == 2) { %>
+                date_str = date_str.concat("February ");
+            <% } else if (month == 3) { %>
+                <% date_str = date_str.concat("March "); %>
+            <% } else if (month == 4) { %>
+                <% date_str = date_str.concat("April "); %>
+            <% } else if (month == 5) { %>
+                <% date_str = date_str.concat("May "); %>
+            <% } else if (month == 6) { %>
+                <% date_str = date_str.concat("June "); %>
+            <% } else if (month == 7) { %>
+                <% date_str = date_str.concat("July "); %>
+            <% } else if (month == 8) { %>
+                <% date_str = date_str.concat("August "); %>
+            <% } else if (month == 9) { %>
+                <% date_str = date_str.concat("September "); %>
+            <% } else if (month == 10) { %>
+                <% date_str = date_str.concat("October "); %>
+            <% } else if (month == 11) { %>
+                <% date_str = date_str.concat("November "); %>
+            <% } else if (month == 12) { %>
+                <% date_str = date_str.concat("December "); %>
+            <% } else { %>
+                <% date_str = date_str.concat("ERROR "); %>
+            <% } %>
+
+            <% date_str = date_str.concat(day.toString()); %>
+
+            <% console.log(date); %>
+            <% console.log(day); %>
+            <% console.log(month); %>
+            <% console.log(date_str); %>
+            <h2> <%= date_str %></h2>
+            
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <% if (data) { %>
                     <% data[0].forEach(function(event){ %>
-                        <% if(event.day.includes('Monday')) { %>
+                        <% if(event.day.includes(wday_str)) { %>
                             <div class="col mb-5" id="single-event">
                                 <div class="card h-100">
                                     <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height= 150>
                                     <div class="card-body">
                                         <div class="text-center">
                                             <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
-                                            <p class="card-text">Monday at <%=event.time%></h4> 
+                                            <p class="card-text"><%=wday_str%> at <%=event.time%></h4> 
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +121,69 @@
                     <% }) %>
                 <% } %>  
             </div>
-            <h2> Tuesday's Events</h2>
+
+            <% const new_date = new Date(); %>
+            <% new_date.setDate(day + 1) %>
+            <% day = new_date.getDate(); %>
+            <% month = new_date.getMonth() + 1; %>
+            <% weekday = new_date.getDay(); %>
+
+            <% if (weekday == 0) { %>
+                <% date_str = "Sunday, "; %>
+                <% wday_str = "Sunday"; %>
+            <% } else if(weekday == 1) { %>
+                <% date_str = "Monday, "; %>
+                <% wday_str = "Monday"; %>
+            <% } else if(weekday == 2) { %>
+                <% date_str = "Tuesday, "; %>
+                <% wday_str = "Tuesday"; %>
+            <% } else if(weekday == 3) { %>
+                <% date_str = "Wednesday, "; %>
+                <% wday_str = "Wednesday"; %>
+            <% } else if(weekday == 4) { %>
+                <% date_str = "Thursday, "; %>
+                <% wday_str = "Thursday"; %>
+            <% } else if(weekday == 5) { %>
+                <% date_str = "Friday, "; %>
+                <% wday_str = "Friday"; %>
+            <% } else if(weekday == 6) { %>
+                <% date_str = "Saturday, "; %>
+                <% wday_str = "Saturday"; %>
+            <% } else { %>
+                <% date_str = "ERROR, "; %>
+            <% } %>
+            
+            <% if(month == 1) { %>
+                <% date_str = date_str.concat("January "); %>
+            <% } else if (month == 2) { %>
+                date_str = date_str.concat("February ");
+            <% } else if (month == 3) { %>
+                <% date_str = date_str.concat("March "); %>
+            <% } else if (month == 4) { %>
+                <% date_str = date_str.concat("April "); %>
+            <% } else if (month == 5) { %>
+                <% date_str = date_str.concat("May "); %>
+            <% } else if (month == 6) { %>
+                <% date_str = date_str.concat("June "); %>
+            <% } else if (month == 7) { %>
+                <% date_str = date_str.concat("July "); %>
+            <% } else if (month == 8) { %>
+                <% date_str = date_str.concat("August "); %>
+            <% } else if (month == 9) { %>
+                <% date_str = date_str.concat("September "); %>
+            <% } else if (month == 10) { %>
+                <% date_str = date_str.concat("October "); %>
+            <% } else if (month == 11) { %>
+                <% date_str = date_str.concat("November "); %>
+            <% } else if (month == 12) { %>
+                <% date_str = date_str.concat("December "); %>
+            <% } else { %>
+                <% date_str = date_str.concat("ERROR "); %>
+            <% } %>
+
+            <% date_str = date_str.concat(day.toString()); %>
+
+            <h2> <%=date_str%> </h2>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <% if (data) { %>
                     <% data[0].forEach(function(event){ %>
@@ -60,7 +194,7 @@
                                     <div class="card-body">
                                         <div class="text-center">
                                             <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
-                                            <p class="card-text">Tuesday at <%=event.time%></h4> 
+                                            <p class="card-text"><%=wday_str%> at <%=event.time%></h4> 
                                         </div>
                                     </div>
                                 </div>
