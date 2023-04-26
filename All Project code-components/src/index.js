@@ -58,6 +58,31 @@ app.use(
   })
 );
 
+
+const events = `
+  SELECT DISTINCT
+    events.event_id,
+    events.event_title,
+    events.event_description,
+    events.restaurant,
+    events.day,
+    events.time AS events
+  FROM 
+    events
+`
+
+const deals = `
+  SELECT DISTINCT
+    deals.deal_id,
+    deals.deal_title,
+    deals.deal_description,
+    deals.restaurant,
+    deals.day,
+    deals.time AS deals
+  FROM 
+    deals
+`
+
 // *****************************************************
 // <!-- Section 4 : API Routes -->
 // *****************************************************
@@ -186,18 +211,25 @@ app.post('/login', async (req, res) => {
 
 app.get('/discover', (req, res) => {
 
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  const date = new Date(Date.now());
+  //console.log(date);
+  const currentDay = days[date.getDay()];
+  //console.log(currentDay);
+
   // Need to clarify how these queries will be written in next team meeting.
-  // const topRestaurantsQuery = ;
-  const highestRatedQuery = `SELECT r.name, r.image_url, AVG(rt.rating_number) AS average_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id ORDER BY average_rating DESC LIMIT 4;`;
-  // const weeksEventsQuery;
-  // const dailyDealsQuery;
+  const topRestaurantsQuery = `SELECT r.restaurant_id, r.name, r.image_url, ROUND(AVG(rt.rating_number), 1) AS avg_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id, r.name, r.image_url ORDER BY COUNT(rt.rating_id) DESC LIMIT 4;`;
+  const highestRatedQuery = `SELECT r.restaurant_id, r.name, r.image_url, ROUND(AVG(rt.rating_number), 1) AS avg_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id, r.restaurant_id ORDER BY avg_rating DESC LIMIT 4;`;
+  const weeksEventsQuery = `SELECT r.restaurant_id, r.name, r.image_url, e.event_title, ROUND(AVG(rt.rating_number), 1) AS avg_rating FROM restaurants AS r JOIN events AS e ON r.name = e.restaurant LEFT JOIN ratings AS rt ON r.restaurant_id = rt.restaurant_id WHERE e.day LIKE '%${currentDay}%' GROUP BY r.restaurant_id, r.name, r.image_url, e.event_title ORDER BY RANDOM() LIMIT 4;`;
+  const dailyDealsQuery = `SELECT r.restaurant_id, r.name, r.image_url, d.deal_title, ROUND(AVG(rt.rating_number), 1) AS avg_rating FROM restaurants AS r JOIN deals AS d ON r.name = d.restaurant LEFT JOIN ratings AS rt ON r.restaurant_id = rt.restaurant_id WHERE d.day LIKE '%${currentDay}%' GROUP BY r.restaurant_id, r.name, r.image_url, d.deal_title ORDER BY RANDOM() LIMIT 4;`;
   
   db.task('do-everything', task => {
     return task.batch([
+      task.any(topRestaurantsQuery, []),
       task.any(highestRatedQuery, []),
-      //task.any(topRestaurantsQuery, []),
-      //task.any(weeksEventsQuery, []),
-      //task.any(dailyDealsQuery, []),
+      task.any(weeksEventsQuery, []),
+      task.any(dailyDealsQuery, [])
     ]) 
   })
     .then(function (data) {
@@ -223,7 +255,30 @@ app.get('/calendar', (req, res) => {
 });
 
 app.get('/events', (req, res) => {
-  res.render('pages/events');
+  const events = `SELECT 
+    events.event_title, 
+    events.day,
+    events.time,
+    restaurants.image_url,
+    restaurants.name AS restaurant_name
+   FROM 
+    events 
+    JOIN restaurants ON events.restaurant_id = restaurants.restaurant_id
+   ORDER BY time ASC;`;
+
+  db.task('do-everything', task =>{
+    return task.batch([
+      task.any(events, []),
+    ])
+  })
+    .then(function(data){
+      console.log(data)
+      res.render('pages/events', {data})
+    })
+    .catch(function (err){
+      console.log("failed")
+      res.render('pages/deals', {data})
+    });
 });
 
 app.get('/getReviews', (req, res) => {
@@ -257,6 +312,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(!exists(req.params.rid)) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 174")
+    await res.send("Rid needs to exist")
     return;
   }
 
@@ -268,6 +324,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(r_data_db_err) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 186")
+    await res.send("Database err")
     return;
   }
 
@@ -277,6 +334,7 @@ app.get("/restaurant/:rid", async  (req, res) => {
   if(r_rev_db_err) {
     //todo render an error page
     console.log("PLEASE FIX ERROR NEAR LINE 195")
+    await res.send("Database err")
     return;
   }
   // Data in restaurant_data
@@ -301,9 +359,158 @@ app.get("/restaurant/:rid", async  (req, res) => {
   //  }
   //]
 
-  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res})
+  const searchRequest = {
+    location: 'boulder, co',
+    name: r_data_db_res,
+  };
+  let yelp_data = await client.search(searchRequest)
+  .then(results => {
+    res.json({status: 'success'});
+    console.log(results)
+  })
+  .catch(error => {
+    // Handle errors
+    console.log(error);
+  });
+
+  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
 })
 
+
+const RatingResult = {
+  NoReview: 0,
+  UserHasReview: 1,
+  DatabaseErr: 2
+}
+
+
+app.post("ratings/:rid", async (req, res) => {
+
+  if(!exists(req.session.user)) {
+      console.log("Handle error near line 318")
+      await res.send("You must be signed in to post reviews");
+      return;
+  }
+
+
+  // check that the user does not allready have a review
+  let duplicationQuerry = `SELECT * FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`;
+  let [dupRes, data] = await db.any(duplicationQuerry).then(data => {
+    if(data.length == 0) {
+      return [RatingResult.NoReview, data]
+    } else {
+      return [RatingResult.UserHasReview, data]
+    }
+  }).catch(err => {return [RatingResult.DatabaseErr, err]})
+
+
+  if(dupRes == RatingResult.DatabaseErr) {
+    console.log("Handle error near line 336")
+    console.log(`Db err: ${data}`)
+
+    await res.send("A database error has occured");
+    return;
+  }
+
+  if(dupRes == RatingResult.UserHasReview) {
+    await res.send("User allready has review, perhaps you meant to update it?")
+    return;
+  }
+
+  if(!exists(req.body.rating)) {
+    console.log("handle err near line 349")
+    await res.send("Please send a \"rating\" object in the body of your message")
+    return;
+  }
+
+  let rating = req.body.rating
+  let now = Date.now()
+  let now_str = `to_timestamp(${now.toString()})`
+  // insert the review
+  let review_insert_querry = `INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_number, review) VALUES (${rid}, ${req.session.user.user_id}, ${now_str}, ${now_str}, ${rating.number}, '${rating.review}');` 
+  let [dbErr, dbRes] = await db.any(review_insert_querry).then(dat => {[false, dat]}).catch(err => {[true, err]})
+  if(dbErr) {
+    console.log("handle err near line 361")
+    console.log(`db err: ${dbRes}`)
+    await res.send("A database error has occured")
+    return;
+  }
+
+  await res.send("Added review!")
+});
+
+app.delete("ratings/:rid", async (req, res) => {
+  if(!exists(req.session.user)) {
+    console.log("Handle error near line 310")
+    await res.send("You must be signed in to post reviews");
+    return;
+  }
+  
+  // check that the user does allready have a review
+  let [dupRes, data] = await db.any(duplicationQuerry).then(data => {
+  let duplicationQuerry = `SELECT * FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`;
+  if(data.length == 0) {
+    return [RatingResult.NoReview, data]
+  } else {
+    return [RatingResult.UserHasReview, data]
+  }
+  }).catch(err => {return [RatingResult.DatabaseErr, err]})
+
+
+  if(dupRes == RatingResult.DatabaseErr) {
+    console.log("Handle error near line 390")
+    console.log(`Db err: ${data}`)
+
+    await res.send("A database error has occured");
+    return;
+  }
+
+
+  if(dupRes == RatingResult.NoReview) {
+    console.log("Handle error near line 399")
+    await res.send("User has no review to delete");
+    return;
+  }
+
+  let del_query = `DELETE FROM ratings WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};`
+  let [dbErr, dbRes] = await db.any(del_query).then(dat => {[false, dat]}).catch(err => {[true, err]})
+  if(dbErr) {
+    console.log("handle err near line 407")
+    console.log(`db err: ${dbRes}`)
+    await res.send("A database error has occured")
+    return;
+  }
+  
+  await res.send("Deleted successfully")
+});
+
+app.put("ratings/:rid", async (req, res) => {
+  if(!exists(req.session.user)) {
+    console.log("Handle error near line 417")
+    await res.send("You must be signed in to post reviews");
+    return;
+  }
+
+  if(!exists(req.body.rating)) {
+    await res.send("You must supply a \"rating\" object.")
+    return;
+  }
+
+  let now = Date.now()
+  let now_str = `to_timestamp(${now.toString()})`
+  // insert the review
+  let review_update_querry = `UPDATE ratings SET last_updated=${now_str}, rating_number=${rating.number}, review='${rating.review}' WHERE restaurant_id=${rid} AND user_id=${req.session.user.user_id};` 
+  let [dbErr, dbRes] = await db.any(review_update_querry).then(dat => {[false, dat]}).catch(err => {[true, err]})
+  if(dbErr) {
+    console.log("handle err near line 433")
+    console.log(`db err: ${dbRes}`)
+    await res.send("A database error has occured")
+    return;
+  }
+
+
+  await res.send("Updated sucessfully")
+})
 
 
 function exists(option) {

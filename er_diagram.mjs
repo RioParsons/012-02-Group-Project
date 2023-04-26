@@ -24,7 +24,28 @@ erDiagram
         varchar(1024) review
     }
 
+    DEALS{
+        integer deal_id PK "SERIAL, NOT NULL"
+        varchar(64) deal_title "NOT NULL"
+        varchar(256) event_description "NOT NULL"
+        varchar(64) restaurant "NOT NULL"
+        varchar(64) day "NOT NULL"
+        varchar(64) time "NOT NULL"
+    }
+
+
+    EVENTS{
+        integer event_id PK "SERIAL, NOT NULL"
+        varchar(64) event_title "NOT NULL"
+        varchar(256) event_description "NOT NULL"
+        varchar(64) restaurant "NOT NULL"
+        varchar(64) day "NOT NULL"
+        varchar(64) time "NOT NULL"
+    }
+
     USER ||--|| OWNER : ""
     USER ||--|{ RATING : ""
     OWNER ||--|{ RESTAURANT : ""
     RESTAURANT ||--o{ RATING : ""
+    RESTAURANT }o--o| EVENTS : ""
+    RESTAURANT }o--o| DEALS : ""
