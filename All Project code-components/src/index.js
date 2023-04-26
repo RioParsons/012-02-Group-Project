@@ -247,7 +247,31 @@ app.get('/discover', (req, res) => {
 });
 
 app.get('/deals', (req, res) => {
-  res.render('pages/deals');
+  const deals = `SELECT 
+    deals.deal_title, 
+    deals.day,
+    deals.time,
+    restaurants.image_url,
+    restaurants.name AS restaurant_name
+    FROM 
+    deals 
+    JOIN restaurants ON deals.restaurant_id = restaurants.restaurant_id
+    ORDER BY time ASC;`;
+
+  db.task('do-everything', task =>{
+    return task.batch([
+      task.any(deals, []),
+    ])
+  })
+    .then(data => {
+      console.log(data)
+      res.render('pages/deals', {data})
+    })
+    .catch(function (err){
+      console.log(err);
+      data = [];
+      res.render('pages/calendar', {data})
+    });
 });
 
 app.get('/calendar', (req, res) => {
@@ -277,7 +301,7 @@ app.get('/events', (req, res) => {
     })
     .catch(function (err){
       console.log("failed")
-      res.render('pages/deals', {data})
+      res.render('pages/calendar', {data})
     });
 });
 
