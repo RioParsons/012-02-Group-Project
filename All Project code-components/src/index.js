@@ -250,6 +250,7 @@ app.get('/deals', (req, res) => {
     deals.deal_title, 
     deals.day,
     deals.time,
+    deals.deal_description,
     restaurants.image_url,
     restaurants.name AS restaurant_name
     FROM 
@@ -382,21 +383,56 @@ app.get("/restaurant/:rid", async  (req, res) => {
   //  }
   //]
 
+  let client = yelp.client(process.env.API_KEY);
   const searchRequest = {
     location: 'boulder, co',
     name: r_data_db_res,
   };
-  let yelp_data = await client.search(searchRequest)
+  
+  let [yelpErr, yelpData] = await client.search(searchRequest)
   .then(results => {
-    res.json({status: 'success'});
-    console.log(results)
+    return [false, results]
   })
   .catch(error => {
-    // Handle errors
-    console.log(error);
+    return [true, error]
   });
 
-  res.render("pages/restaurant", {restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: yelp_data})
+  if(yelpErr) {
+    console.log(`yelp err: ${yelpData}`)
+    res.send("Unable to lookup yep data")
+    return;
+  }
+
+  var safe_yelp = {
+    rating: 4.5,
+    location: {
+      address1: '1011 Walnut St',
+      address2: '',
+      address3: '',
+      city: 'Boulder',
+      zip_code: '80302',
+      country: 'US',
+      state: 'CO',
+      display_address: [ '1011 Walnut St', 'Boulder, CO 80302' ]
+    },
+    phone: "(303) 998-1010"
+  } 
+  if(exists(yelpData.jsonBody.businesses[0])) {
+    let yelp = yelpData.jsonBody.businesses[0];
+    safe_yelp.rating = yelp.rating;
+    safe_yelp.location = yelp.location;
+    safe_yelp.phone = yelp.display_phone
+  }
+
+  let avg_query = `select AVG(rating_number) from ratings where restaurant_id=${req.params.rid};`
+  let [avgErr, avgDat] = await db.one(avg_query).then(dat => {return [false, dat];}).catch(err => {return [true, err];})
+
+  if(avgErr) {
+    console.log(`Err getting avg: ${avgDat}`)
+    res.send("Error getting internal rating.")
+  }
+
+  res.render("pages/restaurant", {restaurant_rating: avgDat, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: safe_yelp})
 })
 
 
@@ -407,7 +443,7 @@ const RatingResult = {
 }
 
 
-app.post("ratings/:rid", async (req, res) => {
+app.post("/ratings/:rid", async (req, res) => {
 
   if(!exists(req.session.user)) {
       console.log("Handle error near line 318")
@@ -462,7 +498,7 @@ app.post("ratings/:rid", async (req, res) => {
   await res.send("Added review!")
 });
 
-app.delete("ratings/:rid", async (req, res) => {
+app.delete("/ratings/:rid", async (req, res) => {
   if(!exists(req.session.user)) {
     console.log("Handle error near line 310")
     await res.send("You must be signed in to post reviews");
@@ -507,7 +543,7 @@ app.delete("ratings/:rid", async (req, res) => {
   await res.send("Deleted successfully")
 });
 
-app.put("ratings/:rid", async (req, res) => {
+app.put("/ratings/:rid", async (req, res) => {
   if(!exists(req.session.user)) {
     console.log("Handle error near line 417")
     await res.send("You must be signed in to post reviews");
