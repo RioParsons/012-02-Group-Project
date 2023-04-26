@@ -305,6 +305,59 @@ app.get('/events', (req, res) => {
     });
 });
 
+app.get('/events/filter', (req, res) =>{
+  
+  if (req.body.trivia == true) {
+    trivia_val = '%zzz%';
+  } else {
+    trivia_val = '%rivia%';
+  }
+
+  if (req.body.bingo == true) {
+    var bingo_val = '%zzz%';
+  } else {
+    var bingo_val = '%ingo%';
+  }
+
+  if (req.body.gamenight == true) {
+    var game_val = '%zzz%';
+  } else {
+    var game_val = '%ame%';
+  }
+
+  if (req.body.livemusic == true) {
+    var music_val = '%zzz';
+  } else {
+    var music_val = '%usic%';
+  }
+  const events = `SELECT 
+    events.event_title, 
+    events.day,
+    events.time,
+    restaurants.image_url,
+    restaurants.name AS restaurant_name
+   FROM 
+    events 
+    JOIN restaurants ON events.restaurant_id = restaurants.restaurant_id
+   WHERE events.event_title LIKE '${trivia_val}' OR events.event_title LIKE '${bingo_val}'
+   ORDER BY time ASC;`;
+
+   db.task('do-everything', task =>{
+    return task.batch([
+      task.any(events, []),
+    ])
+  })
+    .then(function(data){
+      console.log(data)
+      res.render('pages/events', {data})
+    })
+    .catch(function (err){
+      console.log("failed")
+      res.redirect('pages/discover', {data})
+    });
+
+});
+
 app.get('/getReviews', (req, res) => {
 
   // Working API connection, need to determine what API calls we need

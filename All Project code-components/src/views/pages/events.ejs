@@ -18,14 +18,16 @@
         <div class="filter">
             <h4> Select the events you would like to view</h1>
             <div class="Event-types">
-                <tr>
-                    <input type="checkbox" id="bingo" onchange="change();"> Bingo </label>
-                    <input type="checkbox" id="trivia" onchange="change();"> Trivia </label>
-                    <input type="checkbox" id="game-night" onchange="change();"> Game Night </label>
-                    <input type="checkbox" id="live-music" onchange="change();"> Live Music </label>
-                </tr> 
-            <br>
-            <button onclick="checkBoxes()"> Submit </button>
+                <form action="/events/filter" method="get">
+                    <tr>
+                        <input type="checkbox" id="trivia" > Trivia </label>
+                        <input type="checkbox" id="bingo" > Bingo </label>
+                        <input type="checkbox" id="gamenight" > Game Night </label>
+                        <input type="checkbox" id="livemusic" > Live Music </label>
+                    </tr> 
+                    <br>
+                    <input type="submit" value="Filter" />
+                </form>
             </div>
         </div>
         <div class="container px-4 px-lg-5 mt-5" id="eventsList">

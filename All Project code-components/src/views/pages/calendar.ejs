@@ -2,16 +2,25 @@
 <%- include ('../partials/menu') %>
 
 <!-- WE WILL HAVE TO CHANGE SOME OF THIS STUFF, DO NOT WANT TO ALLOW CUSTOMERS TO HAVE ACCESS TO CREATE/CHANGE EVENTS -->
-
 <main>
     <div class="col">
         <%- include ('../partials/message') %>
     </div>
+    
     <div class="container">
         <!-- THE REST OF YOUR HTML CODE GOES HERE -->
         <h1>Calendar</h1>
+        <body onload="initializeContent" style="height: 100vh">
         <div class="container">
             <div id="calendar" class="row">
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Sunday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Monday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Tuesday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Wednesday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Thursday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Friday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Saturday</div>
+              
     
             </div>
             <div class="modal" tabindex="-1" id="event-modal">
@@ -79,7 +88,7 @@
               </div>
             </form>
         </div>
-
+        </body>
     </div>
 </main>
 
