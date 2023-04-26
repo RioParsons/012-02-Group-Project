@@ -65,6 +65,7 @@ INSERT INTO ratings (restaurant_id, user_id, last_updated, uploaded, rating_numb
 (2, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.0, 'Amazing burgers, best I ever had!'),
 (2, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.0, 'Burgers were decent but nothing special.'),
 (2, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.5, 'Delicious burgers and great service.'),
+(2, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.5, 'Sheesh bruh'),
 (3, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 4.5, 'Excellent sushi, very fresh!'),
 (3, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.5, 'Sushi was good but not amazing.'),
 (4, 1, '2023-04-19 13:05:06', '2023-04-19 13:05:06', 3.0, 'Tacos were just okay, nothing special.'),
