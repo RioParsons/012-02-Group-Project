@@ -114,6 +114,9 @@
                                             <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
                                             <p class="card-text"><%=wday_str%> at <%=event.time%></h4> 
                                         </div>
+                                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/restaurant/<%= event.restaurant_id %>">Learn More</a></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -195,6 +198,9 @@
                                         <div class="text-center">
                                             <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
                                             <p class="card-text"><%=wday_str%> at <%=event.time%></h4> 
+                                        </div>
+                                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/restaurant/<%= event.restaurant_id %>">Learn More</a></div>
                                         </div>
                                     </div>
                                 </div>
