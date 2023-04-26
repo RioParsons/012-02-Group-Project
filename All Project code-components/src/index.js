@@ -110,8 +110,8 @@ app.post('/register', async (req, res) => {
 
     // console.log("Owner box checked: " + isOwner);
 
-    const userReg = 'INSERT INTO users (username, pswd) VALUES ($1, $2) RETURNING user_id ;';
-    const ownerReg = `INSERT INTO owners (owner_id) (SELECT user_id FROM users WHERE users.username = $1);`;
+    const userReg = 'INSERT INTO users (username, pswd) VALUES ($1, $2) RETURNING *;';
+    const ownerReg = `INSERT INTO owners (owner_id) (SELECT user_id FROM users WHERE users.username = $1) RETURNING *;`;
 
     db.task('do-everything', task => {
       if (isOwner) {
@@ -137,7 +137,7 @@ app.post('/register', async (req, res) => {
     })
     .then(function (data) {
         console.log("Registration succeeded")
-        //console.log(data)
+        // console.log(data)
         res.redirect('/login')
       })
       // if query execution fails
