@@ -102,9 +102,12 @@
                                                 <h5 class="card-title"><%=deal.deal_title%> at <%=deal.restaurant_name%></h5>
                                                 <h6 class="card-subtitle mb-2 text-muted"><%=wday_str%> at <%=deal.time%></h6> 
                                                 <p class="card-text"><%=deal.deal_description%></p>
+<<<<<<< Updated upstream
                                             </div>
                                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/restaurant/<%= deal.restaurant_id %>">Learn More</a></div>
+=======
+>>>>>>> Stashed changes
                                             </div>
                                         </div>
                                     </div>
@@ -124,18 +127,25 @@
 
             <% if (weekday == 0) { %>
                 <% date_str = "Sunday, "; %>
+                <% wday_str = "Sunday"; %>
             <% } else if(weekday == 1) { %>
                 <% date_str = "Monday, "; %>
+                <% wday_str = "Monday"; %>
             <% } else if(weekday == 2) { %>
                 <% date_str = "Tuesday, "; %>
+                <% wday_str = "Tuesday"; %>
             <% } else if(weekday == 3) { %>
                 <% date_str = "Wednesday, "; %>
+                <% wday_str = "Wednesday"; %>
             <% } else if(weekday == 4) { %>
                 <% date_str = "Thursday, "; %>
+                <% wday_str = "Thursday"; %>
             <% } else if(weekday == 5) { %>
                 <% date_str = "Friday, "; %>
+                <% wday_str = "Friday"; %>
             <% } else if(weekday == 6) { %>
                 <% date_str = "Saturday, "; %>
+                <% wday_str = "Saturday"; %>
             <% } else { %>
                 <% date_str = "ERROR, "; %>
             <% } %>
@@ -184,9 +194,12 @@
                                                 <h6 class="card-subtitle mb-2 text-muted"><%=wday_str%> at <%=deal.time%></h6> 
                                                 <p class="card-text"><%=deal.deal_description%></p>
                                             </div>
+<<<<<<< Updated upstream
                                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/restaurant/<%= deal.restaurant_id %>">Learn More</a></div>
                                             </div>
+=======
+>>>>>>> Stashed changes
                                         </div>
                                     </div>
                                 </div>
