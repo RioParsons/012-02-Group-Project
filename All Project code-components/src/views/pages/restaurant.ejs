@@ -16,32 +16,27 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-6" style="outline-style: solid; background-color:#5a6673; border-radius:6px; color:#fffefc">
-                <!-- get data for yelp -->
+                <div class="col-md-6 bg-dark" style="outline-style: solid; border-radius:6px; color:#fffefc">
+                <!-- get data from yelp -->
                 <br>
                     <!--    Resturant Name              -->
-                  <h1> Resturant Name </h1>
+                  <h1> <%= restaurant_data.name %> </h1>
                   <hr size="1" style="height:2px; background-color:white;" width="max-width" float="[left, right center]">
 
                     <!-- show address -->
-                  <h4> Address </h4>
+                  <h5>  <%= yelp_data.location.display_address[0] %>, <%= yelp_data.location.display_address[1] %>  </h5>
                   
                   <hr size="1" style="height:2px; background-color:white;" width="400rem" float="[left, right center]">
 
                     <!-- show YELP rating -->
-                  <h6> Yelp Rating: 4.4/5 </h6>
+                  <h6> Yelp Rating:  <%= yelp_data.rating %>/5 </h6>
                   
                     <!-- show our rating -->
-                  <h6> CC Rating: 4.5/5 </h6>
+                  <h6> CC Rating:  <%= restaurant_rating.round %>/5 </h6>
                   <hr size="1" style="height:2px; background-color:white;" width="400rem" float="[left, right center]">
                    <!-- show phone number -->
-                  <h6> (123) 456-7890 </h6>
-                    <br>
-                    <!-- show operating hours -->
-                  <h6> Sunday - Wednesday: 5 - 9 PM </h6>
-                  <h6> Thursday - Saturday: 5 - 11 PM </h6>
-                    <!-- show reviews -->
-                  
+                  <h6>  Phone Number: <%= yelp_data.phone %></h6>
+                    <br>                  
                 </div>
             </div>
         </div>
@@ -59,7 +54,7 @@
                         <div class="right" style="font-size: 16px; margin: 0; display: flex;">
                                 
                             <h4>
-                                <span class="text-body-2" style="text-align: center; height: 2rem; width: 5rem; display: flex; align-items: center; background-color:#5a6673; border-radius:6px; margin-left: 5px; color: #ffbf00; ">
+                                <span class="text-body-2 bg-dark" style="text-align: center; height: 2rem; width: 5rem; display: flex; align-items: center;border-radius:6px; margin-left: 5px; color: #ffbf00; ">
                                     &nbsp;
                                      <%= item.rating_number %>/5 
                                 </span>
@@ -85,18 +80,25 @@
             </ul>
         </div>
         <hr size="1" style="height:2px; background-color:grey;" width="max-width" float="[left, right center]">
-
+        <h3> Leave a Review: </h3>
         <form action="/ratings/<%= restaurant_data.restaurant_id %>" method="POST">
-            <div class="mb-3" style="width:15rem;">
-                <label for="event-rating" class="review-rating"> <h6> Give a rating: (0.0 - 5.0) </h6></label>
-                <input type="text" class="form-control" id="event-rating" >
-              </div>
-            <div class="mb-3">
-                <label for="event-rating" class="review-rating"> <h6> Leave a Review: </h6></label>
-                <input type="hidden" name="event_review" value="event-review" />
-                <textarea id="event-review" class="form-control" aria-label="With textarea"></textarea>
+            <div class="row">
+                
+                <div class="col-md-5">
+                    <div class="mb-3" style="width:12rem;">
+                        <label for="event-rating" class="review-rating"> <h6> Give a Rating: (0.0 - 5.0) </h6></label>
+                        <input type="text" class="form-control" id="event-rating" >
+                      </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="mb-3"> 
+                        <label for="event-rating" class="review-rating"> <h6> Give a Review: </h6></label>
+                        <input type="hidden" name="event_review" value="event-review" />
+                        <textarea id="event-review" class="form-control" aria-label="With textarea"></textarea>
+                    </div>
+                </div>
             </div>
-            <button id="submit_button" class="btn btn-secondary" type="submit">Post </button>
+            <button id="submit_button" class="btn btn-secondary btn-lg" type="submit"> Post </button>
         </form>
         <br>
         <br>
