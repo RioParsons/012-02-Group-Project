@@ -7,52 +7,169 @@
     </div>
     <div class="contaner">
         <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-        <h1>Events</h1>
-        <h3> This Week </h3>
-        <div class="row row-cols-4 g-4">
-            <div class="col">
-                <div class="card">
-                    <img src="../../resources/img/Avanti_Ext.jpeg" class="card-img-top" alt="Avanti exterior">
-                    <div class="card-body">
-                        <h5 class="card-title">Bingo at Avanti</h5>
-                        <p class="card-text">Monday, 7pm - 8:30am </h4> 
-                    </div>
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Events in Boulder</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Find fun things to do during a night out in Boulder</p>
                 </div>
             </div>
-            <div class="col">
-                <div class="card">
-                    <img src="../../resources/img/TuneupTavern.jpeg" class="card-img-top" alt="Tuneup Tavern cup and interior">
-                    <div class="card-body">
-                        <h5 class="card-title">Trivia at The Tuneup Tavern</h5>
-                        <p class="card-text">Wednesday, 7pm - 9pm </h4> 
-                    </div> 
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="../../resources/img/OutbackSaloon.png" class="card-img-top" alt="Outback Saloon logo">
-                    <div class="card-body">
-                        <h5 class="card-title">Karaoke at the Outback Saloon</h5>
-                        <p class="card-text">Wednesday, 9pm - 1:30am </h4> 
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="../../resources/img/BoulderSocial.jpg" class="card-img-top" alt="Boulder Social exterior">
-                    <div class="card-body">
-                        <h5 class="card-title">Live Music at The Boulder Social</h5>
-                        <p class="card-text">Saturday, 5pm - 8pm </h4> 
-                    </div>
-                </div>
+        </header>
+        <div class="filter">
+            <h4> Select the events you would like to view</h1>
+            <div class="Event-types">
+                <tr>
+                    <input type="checkbox" id="bingo" onchange="change();"> Bingo </label>
+                    <input type="checkbox" id="trivia" onchange="change();"> Trivia </label>
+                    <input type="checkbox" id="game-night" onchange="change();"> Game Night </label>
+                    <input type="checkbox" id="live-music" onchange="change();"> Live Music </label>
+                </tr> 
+            <br>
+            <button onclick="checkBoxes()"> Submit </button>
             </div>
         </div>
-        <h3> Next Week </h3>
-        <div> 
-
+        <div class="container px-4 px-lg-5 mt-5" id="eventsList">
+            <h2> Monday's Events</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% if (data) { %>
+                    <% data[0].forEach(function(event){ %>
+                        <% if(event.day.includes('Monday')) { %>
+                            <div class="col mb-5" id="single-event">
+                                <div class="card h-100">
+                                    <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height= 150>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
+                                            <p class="card-text">Monday at <%=event.time%></h4> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>  
+            </div>
+            <h2> Tuesday's Events</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% if (data) { %>
+                    <% data[0].forEach(function(event){ %>
+                        <% if(event.day.includes('Tuesday')) { %>
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height=150>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
+                                            <p class="card-text">Tuesday at <%=event.time%></h4> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>  
+            </div>
+            <h2> Wednesday's Events</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% if (data) { %>
+                    <% data[0].forEach(function(event){ %>
+                        <% if(event.day.includes('Wednesday')) { %>
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height=150>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
+                                            <p class="card-text">Wednesday at <%=event.time%></h4> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>  
+            </div>
+            <h2> Thursday's Events</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% if (data) { %>
+                    <% data[0].forEach(function(event){ %>
+                        <% if(event.day.includes('Thursday')) { %>
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height=150>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
+                                            <p class="card-text">Thursday at <%=event.time%></h4> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>  
+            </div>
+            <h2> Friday's Events</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% if (data) { %>
+                    <% data[0].forEach(function(event){ %>
+                        <% if(event.day.includes('Friday')) { %>
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height=150>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
+                                            <p class="card-text">Friday at <%=event.time%></h4> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>  
+            </div>
+            <h2> Saturday's Events</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% if (data) { %>
+                    <% data[0].forEach(function(event){ %>
+                        <% if(event.day.includes('Saturday')) { %>
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height=150>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
+                                            <p class="card-text">Saturday at <%=event.time%></h4> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>  
+            </div>
+            <h2> Sunday's Events</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% if (data) { %>
+                    <% data[0].forEach(function(event){ %>
+                        <% if(event.day.includes('Sunday')) { %>
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height=150>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="card-title"><%=event.event_title%> at <%=event.restaurant_name%></h5>
+                                            <p class="card-text">Sunday at <%=event.time%></h4> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>  
+            </div>
         </div>
-        <h3> This Month </h3>
-
     </div>
 </main>
 

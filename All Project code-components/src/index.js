@@ -58,6 +58,31 @@ app.use(
   })
 );
 
+
+const events = `
+  SELECT DISTINCT
+    events.event_id,
+    events.event_title,
+    events.event_description,
+    events.restaurant,
+    events.day,
+    events.time AS events
+  FROM 
+    events
+`
+
+const deals = `
+  SELECT DISTINCT
+    deals.deal_id,
+    deals.deal_title,
+    deals.deal_description,
+    deals.restaurant,
+    deals.day,
+    deals.time AS deals
+  FROM 
+    deals
+`
+
 // *****************************************************
 // <!-- Section 4 : API Routes -->
 // *****************************************************
@@ -186,18 +211,24 @@ app.post('/login', async (req, res) => {
 
 app.get('/discover', (req, res) => {
 
-  // Need to clarify how these queries will be written in next team meeting.
-  // const topRestaurantsQuery = ;
-  const highestRatedQuery = `SELECT r.name, r.image_url, AVG(rt.rating_number) AS average_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id ORDER BY average_rating DESC LIMIT 4;`;
-  // const weeksEventsQuery;
-  // const dailyDealsQuery;
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  const date = new Date(Date.now());
+  //console.log(date);
+  const currentDay = days[date.getDay()];
+  //console.log(currentDay);
+
+  const topRestaurantsQuery = `SELECT r.restaurant_id, r.name, r.image_url, ROUND(AVG(rt.rating_number), 1) AS avg_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id, r.name, r.image_url ORDER BY COUNT(rt.rating_id) DESC LIMIT 4;`;
+  const highestRatedQuery = `SELECT r.restaurant_id, r.name, r.image_url, ROUND(AVG(rt.rating_number), 1) AS avg_rating FROM restaurants r JOIN ratings rt ON r.restaurant_id = rt.restaurant_id GROUP BY r.restaurant_id, r.restaurant_id ORDER BY avg_rating DESC LIMIT 4;`;
+  const weeksEventsQuery = `SELECT r.restaurant_id, r.name, r.image_url, e.event_title, ROUND(AVG(rt.rating_number), 1) AS avg_rating FROM restaurants AS r JOIN events AS e ON r.restaurant_id = e.restaurant_id LEFT JOIN ratings AS rt ON r.restaurant_id = rt.restaurant_id WHERE e.day LIKE '%${currentDay}%' GROUP BY r.restaurant_id, r.name, r.image_url, e.event_title ORDER BY RANDOM() LIMIT 4;`;
+  const dailyDealsQuery = `SELECT r.restaurant_id, r.name, r.image_url, d.deal_title, ROUND(AVG(rt.rating_number), 1) AS avg_rating FROM restaurants AS r JOIN deals AS d ON r.restaurant_id = d.restaurant_id LEFT JOIN ratings AS rt ON r.restaurant_id = rt.restaurant_id WHERE d.day LIKE '%${currentDay}%' GROUP BY r.restaurant_id, r.name, r.image_url, d.deal_title ORDER BY RANDOM() LIMIT 4;`;
   
   db.task('do-everything', task => {
     return task.batch([
+      task.any(topRestaurantsQuery, []),
       task.any(highestRatedQuery, []),
-      //task.any(topRestaurantsQuery, []),
-      //task.any(weeksEventsQuery, []),
-      //task.any(dailyDealsQuery, []),
+      task.any(weeksEventsQuery, []),
+      task.any(dailyDealsQuery, [])
     ]) 
   })
     .then(function (data) {
@@ -215,7 +246,31 @@ app.get('/discover', (req, res) => {
 });
 
 app.get('/deals', (req, res) => {
-  res.render('pages/deals');
+  const deals = `SELECT 
+    deals.deal_title, 
+    deals.day,
+    deals.time,
+    restaurants.image_url,
+    restaurants.name AS restaurant_name
+    FROM 
+    deals 
+    JOIN restaurants ON deals.restaurant_id = restaurants.restaurant_id
+    ORDER BY time ASC;`;
+
+  db.task('do-everything', task =>{
+    return task.batch([
+      task.any(deals, []),
+    ])
+  })
+    .then(data => {
+      console.log(data)
+      res.render('pages/deals', {data})
+    })
+    .catch(function (err){
+      console.log(err);
+      data = [];
+      res.render('pages/calendar', {data})
+    });
 });
 
 app.get('/calendar', (req, res) => {
@@ -223,7 +278,30 @@ app.get('/calendar', (req, res) => {
 });
 
 app.get('/events', (req, res) => {
-  res.render('pages/events');
+  const events = `SELECT 
+    events.event_title, 
+    events.day,
+    events.time,
+    restaurants.image_url,
+    restaurants.name AS restaurant_name
+   FROM 
+    events 
+    JOIN restaurants ON events.restaurant_id = restaurants.restaurant_id
+   ORDER BY time ASC;`;
+
+  db.task('do-everything', task =>{
+    return task.batch([
+      task.any(events, []),
+    ])
+  })
+    .then(function(data){
+      console.log(data)
+      res.render('pages/events', {data})
+    })
+    .catch(function (err){
+      console.log("failed")
+      res.render('pages/calendar', {data})
+    });
 });
 
 app.get('/getReviews', (req, res) => {
