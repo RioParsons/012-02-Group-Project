@@ -424,13 +424,15 @@ app.get("/restaurant/:rid", async  (req, res) => {
     safe_yelp.phone = yelp.display_phone
   }
 
-  let avg_query = `select AVG(rating_number) from ratings where restaurant_id=${req.params.rid};`
+  let avg_query = `select ROUND(AVG(rating_number),1) from ratings where restaurant_id=${req.params.rid};`
   let [avgErr, avgDat] = await db.one(avg_query).then(dat => {return [false, dat];}).catch(err => {return [true, err];})
 
   if(avgErr) {
     console.log(`Err getting avg: ${avgDat}`)
     res.send("Error getting internal rating.")
+    return;
   }
+  console.log(avgDat);
 
   res.render("pages/restaurant", {restaurant_rating: avgDat, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: safe_yelp})
 })
