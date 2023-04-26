@@ -1,7 +1,6 @@
 INSERT INTO users (display_name, username, pswd)
 VALUES 
-('admin', 'admin@funny.com', 'password'),
-('ethan', 'ethan@gmail.com', 'password123');
+('admin', 'admin', '$2b$10$wv.Cf0OkgKyJt7WoB78e2u8G9gp26alC8W4Bjp/JW00LGSaawzD4m'); -- Password: 'admin'
 
 INSERT INTO owners (owner_id) VALUES 
 (1);
