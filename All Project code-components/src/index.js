@@ -250,6 +250,7 @@ app.get('/deals', (req, res) => {
     deals.deal_title, 
     deals.day,
     deals.time,
+    deals.deal_description,
     restaurants.image_url,
     restaurants.name AS restaurant_name
     FROM 
