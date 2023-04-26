@@ -9,40 +9,43 @@
         <!-- THE REST OF YOUR HTML CODE GOES HERE -->
         <h1>Daily Deals</h1>
         <div class="container px-4 px-lg-5 mt-5">
-            <% console.log("Getting the date..."); %>
-            
+        
             <% const date = new Date(); %>
             <% let date_str = ""; %>
             <% let day = date.getDate(); %>
             <% let month = date.getMonth() + 1; %>
             <% let weekday = date.getDay(); %>
+            <% let wday_str = ""; %>
 
             <% console.log(date); %>
             <% console.log(day); %>
             <% console.log(month); %>
             <% console.log(weekday); %>
 
-            <% console.log("Entering weekday if/elses"); %>
-
             <% if (weekday == 0) { %>
                 <% date_str = "Sunday, "; %>
+                <% wday_str = "Sunday"; %>
             <% } else if(weekday == 1) { %>
                 <% date_str = "Monday, "; %>
+                <% wday_str = "Monday"; %>
             <% } else if(weekday == 2) { %>
                 <% date_str = "Tuesday, "; %>
+                <% wday_str = "Tuesday"; %>
             <% } else if(weekday == 3) { %>
                 <% date_str = "Wednesday, "; %>
+                <% wday_str = "Wednesday"; %>
             <% } else if(weekday == 4) { %>
                 <% date_str = "Thursday, "; %>
+                <% wday_str = "Thursday"; %>
             <% } else if(weekday == 5) { %>
                 <% date_str = "Friday, "; %>
+                <% wday_str = "Friday"; %>
             <% } else if(weekday == 6) { %>
                 <% date_str = "Saturday, "; %>
+                <% wday_str = "Saturday"; %>
             <% } else { %>
                 <% date_str = "ERROR, "; %>
             <% } %>
-
-            <% console.log("Entering  month if/elses"); %>
             
             <% if(month == 1) { %>
                 <% date_str = date_str.concat("January "); %>
@@ -81,107 +84,24 @@
 
             <h2> <%= date_str %> </h2>
               <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                  <div class="col mb-5">
-                      <div class="card h-100">
-                          <!-- Restaurant Image-->
-                          <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                          <!-- Product details-->
-                          <div class="card-body p-4">
-                              <div class="text-center">
-                                  <!--  Restaurant name-->
-                                  <h5 class="fw-bolder">Restaurant Name</h5>
-                                   
-                                  <!-- To display checked star rating icons -->  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <!-- To display unchecked star rating icons -->  
-                                  <span class = "fa fa-star unchecked"></span>  
-                              </div>
-                          </div>
-                          <!-- Product actions-->
-                          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                              <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col mb-5">
-                      <div class="card h-100">
-                          <!-- Restaurant Image-->
-                          <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                          <!-- Product details-->
-                          <div class="card-body p-4">
-                              <div class="text-center">
-                                  <!--  Restaurant name-->
-                                  <h5 class="fw-bolder">Restaurant Name</h5>
-                                   
-                                  <!-- To display checked star rating icons -->  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <!-- To display unchecked star rating icons -->  
-                                  <span class = "fa fa-star unchecked"></span>  
-                              </div>
-                          </div>
-                          <!-- Product actions-->
-                          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                              <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col mb-5">
-                     <div class="card h-100">
-                          <!-- Restaurant Image-->
-                          <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                          <!-- Product details-->
-                          <div class="card-body p-4">
-                              <div class="text-center">
-                                  <!--  Restaurant name-->
-                                  <h5 class="fw-bolder">Restaurant Name</h5>
-                                   
-                                  <!-- To display checked star rating icons -->  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <!-- To display unchecked star rating icons -->  
-                                  <span class = "fa fa-star unchecked"></span>  
-                              </div>
-                          </div>
-                          
-                          <!-- Product actions-->
-                          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                              <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col mb-5">
-                      <div class="card h-100">
-                          <!-- Restaurant Image-->
-                          <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                          <!-- Product details-->
-                          <div class="card-body p-4">
-                              <div class="text-center">
-                                  <!--  Restaurant name-->
-                                  <h5 class="fw-bolder">Restaurant Name</h5>
-                                   
-                                  <!-- To display checked star rating icons -->  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <span class = "fa fa-star checked"></span>  
-                                  <!-- To display unchecked star rating icons -->  
-                                  <span class = "fa fa-star unchecked"></span>  
-                              </div>
-                          </div>
-                          <!-- Product actions-->
-                          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                              <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Learn More</a></div>
-                          </div>
-                      </div>
-                </div>
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <% if (data) { %>
+                        <% data[0].forEach(function(deal){ %>
+                            <% if(deal.day.includes(wday_str)) { %>
+                                <div class="col mb-5">
+                                    <div class="card h-100">
+                                        <img src=<%=deal.image_url%> class="card-img-top" alt="Restaurant Image" height= 150>
+                                        <div class="card-body">
+                                            <div class="text-center">
+                                                <h5 class="card-title"><%=deal.deal_title%> at <%=deal.restaurant_name%></h5>
+                                                <p class="card-text"><%=wday_str%> at <%=deal.time%></h4> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% }) %>
+                    <% } %>  
             </div>
         </div>
         <div class="container px-4 px-lg-5 mt-5">
