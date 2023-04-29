@@ -70,6 +70,11 @@
                                     <%= item.review %>
                                 </p>
                             </div>
+                            <% if (item.canDelete) { %>
+                                <form action="/ratings_del/<%- restaurant_data.restaurant_id %>" method="post">
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
+                            <% } %>
                         </div>
                         
                         
@@ -83,18 +88,16 @@
         <h3> Leave a Review: </h3>
         <form action="/ratings/<%= restaurant_data.restaurant_id %>" method="POST">
             <div class="row">
-                
                 <div class="col-md-5">
                     <div class="mb-3" style="width:12rem;">
                         <label for="event-rating" class="review-rating"> <h6> Give a Rating: (0.0 - 5.0) </h6></label>
-                        <input type="text" class="form-control" id="event-rating" >
+                        <input type="text" class="form-control" id="event-rating" name="event_rating" >
                       </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-3"> 
-                        <label for="event-rating" class="review-rating"> <h6> Give a Review: </h6></label>
-                        <input type="hidden" name="event_review" value="event-review" />
-                        <textarea id="event-review" class="form-control" aria-label="With textarea"></textarea>
+                        <label for="event-review" class="review-rating"> <h6> Give a Review: </h6></label>
+                        <textarea id="event-review" class="form-control" aria-label="With textarea" name="event_review"></textarea>
                     </div>
                 </div>
             </div>
