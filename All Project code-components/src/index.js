@@ -474,7 +474,7 @@ const RatingResult = {
 app.post("/ratings/:rid", async (req, res) => {
 
   let rid = req.params.rid;
-  if(!exists(req.session.user.user_id)) {
+  if(!exists(req.session.user)) {
       console.log("Handle error near line 318")
       await res.send("You must be signed in to post reviews");
       return;
