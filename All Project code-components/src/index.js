@@ -90,7 +90,7 @@ const deals = `
 // TODO - Include your API routes here
 
 app.get('/', (req, res) => {
-    res.redirect('/login'); //this will call the /anotherRoute route in the API
+    res.redirect('/discover');
 });
 
 app.get('/welcome', (req, res) => {
@@ -98,7 +98,11 @@ app.get('/welcome', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('pages/register');
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+    res.render('pages/register', {isLoggedIn});
 });
 
 app.post('/register', async (req, res) => {  
@@ -137,7 +141,7 @@ app.post('/register', async (req, res) => {
     })
     .then(function (data) {
         console.log("Registration succeeded")
-        // console.log(data)
+        //console.log(data)
         res.redirect('/login')
       })
       // if query execution fails
@@ -149,8 +153,11 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    var logout = false;
-    res.render('pages/login', {logout});
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+    res.render('pages/login', {isLoggedIn});
 });
 
 app.post('/login', async (req, res) => {
@@ -211,6 +218,11 @@ app.post('/login', async (req, res) => {
 
 app.get('/discover', (req, res) => {
 
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   const date = new Date(Date.now());
@@ -234,18 +246,24 @@ app.get('/discover', (req, res) => {
     .then(function (data) {
       console.log(data)
       //console.log(data)
-      res.render('pages/discover', {data})
+      res.render('pages/discover', {data, isLoggedIn})
     })
     // if query execution fails
     // send error message
     .catch(function (err) {
       console.log("failed")
-      res.render('pages/discover', {data})
+      res.render('pages/discover', {data, isLoggedIn})
     });
 
 });
 
 app.get('/deals', (req, res) => {
+
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+
   const deals = `SELECT 
     deals.deal_title, 
     deals.day,
@@ -265,20 +283,32 @@ app.get('/deals', (req, res) => {
   })
     .then(data => {
       console.log(data)
-      res.render('pages/deals', {data})
+      res.render('pages/deals', {data, isLoggedIn})
     })
     .catch(function (err){
       console.log(err);
       data = [];
-      res.render('pages/calendar', {data})
+      res.render('pages/calendar', {data, isLoggedIn})
     });
 });
 
 app.get('/calendar', (req, res) => {
-  res.render('pages/calendar');
+
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+
+  res.render('pages/calendar', {isLoggedIn});
 });
 
 app.get('/events', (req, res) => {
+
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+
   const events = `SELECT 
     events.event_title, 
     events.day,
@@ -297,11 +327,11 @@ app.get('/events', (req, res) => {
   })
     .then(function(data){
       console.log(data)
-      res.render('pages/events', {data})
+      res.render('pages/events', {data, isLoggedIn})
     })
     .catch(function (err){
       console.log("failed")
-      res.render('pages/calendar', {data})
+      res.render('pages/calendar', {data, isLoggedIn})
     });
 });
 
@@ -327,8 +357,8 @@ app.get('/getReviews', (req, res) => {
 
 app.get("/logout", (req, res) => {
   req.session.destroy();
-  var logout = true;
-  res.render("pages/login", {logout});
+  var isLoggedIn = false;
+  res.render("pages/login", {isLoggedIn});
 });
 
 app.get("/restaurant/:rid", async  (req, res) => {
@@ -574,10 +604,9 @@ function exists(option) {
 // Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
-    // Default to login page.
-    return res.redirect('/login');
+    req.isLoggedIn = true;
+    return next();
   }
-  next();
 };
 
 // Authentication Required
