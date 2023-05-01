@@ -29,30 +29,30 @@ describe('Server!', () => {
 
 //We are checking POST /add_user API by passing the user info in the correct order. This test case should pass and return a status 200 along with a "Success" message.
 //Positive cases
-/*
-it('positive : /add_user', done => {
-    chai
-      .request(server)
-      .post('/login')
-      .send({username: "12345", password: "abcde"})
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body.message).to.equals('Success');
-        done();
-      });
-  });
 
-  it('negative : /add_user', done => {
-    chai
-      .request(server)
-      .post('/login')
-      .send({username: "7439", password: "hidas"})
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body.message).to.equals('Failed');
-        done();
-      });
-  }); */
+// Successful Login
+it('positive : /login', done => {
+  chai
+    .request(server)
+    .post('/login')
+    .send({username: "user", password: "password"})
+    .end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+});
+
+// Failed Login
+it('negative : /login', done => {
+  chai
+    .request(server)
+    .post('/login')
+    .send({username: "user", password: "abcde"})
+    .end((err, res) => {
+      expect(res).to.have.status(400);
+      done();
+    });
+}); 
 
 it('/getReviews', done => {
     chai
