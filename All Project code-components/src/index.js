@@ -246,15 +246,16 @@ app.get('/discover', (req, res) => {
 });
 
 app.get('/deals', (req, res) => {
-  const deals = `SELECT 
-    deals.deal_title, 
-    deals.day,
-    deals.time,
-    deals.deal_description,
-    restaurants.image_url,
-    restaurants.name AS restaurant_name
+  const deals = `
+    SELECT 
+      deals.deal_title, 
+      deals.day,
+      deals.time,
+      deals.deal_description,
+      restaurants.image_url,
+      restaurants.name AS restaurant_name
     FROM 
-    deals 
+      deals 
     JOIN restaurants ON deals.restaurant_id = restaurants.restaurant_id
     ORDER BY time ASC;`;
 
@@ -275,7 +276,37 @@ app.get('/deals', (req, res) => {
 });
 
 app.get('/calendar', (req, res) => {
-  res.render('pages/calendar');
+  const items = `
+  SELECT * FROM (
+    SELECT 
+      deal_title AS item_title, 
+      day,
+      time
+    FROM 
+      deals 
+    UNION ALL
+    SELECT 
+      event_title AS item_title,
+      day,
+      time
+    FROM
+     events
+  ) AS items
+  ORDER BY time ASC;`;
+
+  db.task('do-everything', task =>{
+    return task.batch([
+      task.any(items, []),
+    ])
+  })
+    .then(function(data){
+      console.log(data)
+      res.render('pages/calendar', {data})
+    })
+    .catch(function (err){
+      console.log("failed")
+      res.render('pages/calendar', {data})
+    });
 });
 
 app.get('/events', (req, res) => {
