@@ -16,8 +16,9 @@
                 </div>
             </div>
         </header>
-        <h4 class="container px-4 px-lg-5 mt-5">Filter Events</h3>
-        <div class="container px-4 px-lg-5">
+        <h4 class="container px-4 px-lg-5 mt-5">Filter Deals</h3>
+        <div class="content">
+            <div class="container px-4 px-lg-5">
                 <tr>
                     <label style="margin-right: 20px"> <input name="Bingo" type="checkbox" id="bingo" checked>   Bingo    </label>
                     <label style="margin-right: 20px"> <input name="Trivia" type="checkbox" id="trivia" checked>   Trivia    </label>
@@ -27,7 +28,9 @@
                 </tr> 
             <br>
             <button class="btn btn-outline-dark mt-auto" onclick="filterEvents()"> Filter </button>
+            </div>
         </div>
+        
         <div class="container px-4 px-lg-5 mt-5" id="events-list">
             <% const date = new Date(); %>
             <% let date_str = ""; %>
