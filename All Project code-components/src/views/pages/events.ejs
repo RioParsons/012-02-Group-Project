@@ -16,16 +16,17 @@
                 </div>
             </div>
         </header>
-        <div class="container px-4 px-lg-5 mt-5 border-top-0">
+        <h4 class="container px-4 px-lg-5 mt-5">Filter Events</h3>
+        <div class="container px-4 px-lg-5">
                 <tr>
-                    <label> <input name="Bingo" type="checkbox" id="bingo" checked> Bingo </label>
-                    <label> <input name="Trivia" type="checkbox" id="trivia" checked> Trivia </label>
-                    <label> <input name="Game Night" type="checkbox" id="game-night" checked> Game Night </label>
-                    <label> <input name="Live Music"type="checkbox" id="live-music" checked> Live Music </label>
+                    <label style="margin-right: 20px"> <input name="Bingo" type="checkbox" id="bingo" checked>   Bingo    </label>
+                    <label style="margin-right: 20px"> <input name="Trivia" type="checkbox" id="trivia" checked>   Trivia    </label>
+                    <label style="margin-right: 20px"> <input name="Game Night" type="checkbox" id="game-night" checked>   Game Night    </label>
+                    <label style="margin-right: 20px"> <input name="Live Music"type="checkbox" id="live-music" checked>   Live Music    </label>
+                    <label style="margin-right: 20px"> <input name="Misc Events"type="checkbox" id="other-events" checked>   Other Events    </label>
                 </tr> 
             <br>
-            <br>
-            <button onclick="filterEvents()"> Filter </button>
+            <button class="btn btn-outline-dark mt-auto" onclick="filterEvents()"> Filter </button>
         </div>
         <div class="container px-4 px-lg-5 mt-5" id="events-list">
             <% const date = new Date(); %>
@@ -217,20 +218,12 @@
             var bingo = document.querySelector('#bingo');
             var gamenight = document.querySelector('#game-night');
             var music = document.querySelector('#live-music');
-            console.log(trivia);
-            console.log(trivia.checked);
-            console.log(gamenight.checked);
-        
+            var other = document.querySelector('#other-events');
+            console.log(other.checked);
             var events = document.getElementsByName("single-event");
-            console.log(events.length);
-
             for (i=0; i < events.length; i++){
-                var event = events[i];
-                console.log(event);
-                var title = event.getElementsByClassName("card-title");
-                console.log(title);
+                var title = events[i].getElementsByClassName("card-title");
                 var type = title[0].textContent;
-                console.log(type);
                 if (type.includes("rivia") & trivia.checked == true){
                     events[i].style.display = "";
                 } else if (type.includes("ingo") & bingo.checked== true) {
@@ -238,6 +231,8 @@
                 } else if (type.includes("ame") & gamenight.checked == true) {
                     events[i].style.display = "";
                 } else if (type.includes("usic") & music.checked == true) {
+                    events[i].style.display = "";
+                } else if (other.checked == true & !type.includes("rivia") & !type.includes("ingo") & !type.includes("ame") & !type.includes("usic")){
                     events[i].style.display = "";
                 } else {
                     events[i].style.display = "none";
