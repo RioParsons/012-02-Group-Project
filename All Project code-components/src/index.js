@@ -284,38 +284,8 @@ app.get('/calendar', (req, res) => {
   if (req.session.user) {
     isLoggedIn = true;
   }
-
-  const items = `
-  SELECT * FROM (
-    SELECT 
-      deal_title AS item_title, 
-      day,
-      time
-    FROM 
-      deals 
-    UNION ALL
-    SELECT 
-      event_title AS item_title,
-      day,
-      time
-    FROM
-     events
-  ) AS items
-  ORDER BY time ASC;`;
-
-  db.task('do-everything', task =>{
-    return task.batch([
-      task.any(items, []),
-    ])
-  })
-    .then(function(data){
-      console.log(data)
-      res.render('pages/calendar', {isLoggedIn}, {data})
-    })
-    .catch(function (err){
-      console.log("failed")
-      res.render('pages/calendar', {data})
-    });
+  
+  res.render('pages/calendar', {isLoggedIn})
 });
 
 app.get('/events', (req, res) => {
