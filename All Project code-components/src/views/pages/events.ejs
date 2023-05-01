@@ -1,9 +1,10 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<main>
+<body>
     <div class="col">
         <%- include ('../partials/message') %>
+        
     </div>
     <div class="contaner">
         <!-- THE REST OF YOUR HTML CODE GOES HERE -->
@@ -15,20 +16,18 @@
                 </div>
             </div>
         </header>
-        <div class="filter">
-            <h4> Select the events you would like to view</h1>
-            <div class="Event-types">
+        <div class="container px-4 px-lg-5 mt-5 border-top-0">
                 <tr>
-                    <input type="checkbox" id="bingo" onchange="change();"> Bingo </label>
-                    <input type="checkbox" id="trivia" onchange="change();"> Trivia </label>
-                    <input type="checkbox" id="game-night" onchange="change();"> Game Night </label>
-                    <input type="checkbox" id="live-music" onchange="change();"> Live Music </label>
+                    <label> <input name="Bingo" type="checkbox" id="bingo" checked> Bingo </label>
+                    <label> <input name="Trivia" type="checkbox" id="trivia" checked> Trivia </label>
+                    <label> <input name="Game Night" type="checkbox" id="game-night" checked> Game Night </label>
+                    <label> <input name="Live Music"type="checkbox" id="live-music" checked> Live Music </label>
                 </tr> 
             <br>
-            <button onclick="checkBoxes()"> Submit </button>
-            </div>
+            <br>
+            <button onclick="filterEvents()"> Filter </button>
         </div>
-        <div class="container px-4 px-lg-5 mt-5" id="eventsList">
+        <div class="container px-4 px-lg-5 mt-5" id="events-list">
             <% const date = new Date(); %>
             <% let date_str = ""; %>
             <% let day = date.getDate(); %>
@@ -106,7 +105,7 @@
                 <% if (data) { %>
                     <% data[0].forEach(function(event){ %>
                         <% if(event.day.includes(wday_str)) { %>
-                            <div class="col mb-5" id="single-event">
+                            <div class="col mb-5" name="single-event">
                                 <div class="card h-100">
                                     <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height= 150>
                                     <div class="card-body">
@@ -191,7 +190,7 @@
                 <% if (data) { %>
                     <% data[0].forEach(function(event){ %>
                         <% if(event.day.includes('Tuesday')) { %>
-                            <div class="col mb-5">
+                            <div class="col mb-5" name="single-event">
                                 <div class="card h-100">
                                     <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height=150>
                                     <div class="card-body">
@@ -212,6 +211,40 @@
             
         </div>
     </div>
-</main>
+    <script>
+        function filterEvents(){
+            var trivia = document.querySelector('#trivia');
+            var bingo = document.querySelector('#bingo');
+            var gamenight = document.querySelector('#game-night');
+            var music = document.querySelector('#live-music');
+            console.log(trivia);
+            console.log(trivia.checked);
+            console.log(gamenight.checked);
+        
+            var events = document.getElementsByName("single-event");
+            console.log(events.length);
+
+            for (i=0; i < events.length; i++){
+                var event = events[i];
+                console.log(event);
+                var title = event.getElementsByClassName("card-title");
+                console.log(title);
+                var type = title[0].textContent;
+                console.log(type);
+                if (type.includes("rivia") & trivia.checked == true){
+                    events[i].style.display = "";
+                } else if (type.includes("ingo") & bingo.checked== true) {
+                    events[i].style.display = "";
+                } else if (type.includes("ame") & gamenight.checked == true) {
+                    events[i].style.display = "";
+                } else if (type.includes("usic") & music.checked == true) {
+                    events[i].style.display = "";
+                } else {
+                    events[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
 
 <%- include ('../partials/footer') %>

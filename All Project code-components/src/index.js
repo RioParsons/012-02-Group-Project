@@ -270,7 +270,7 @@ app.get('/deals', (req, res) => {
     .catch(function (err){
       console.log(err);
       data = [];
-      res.render('pages/calendar', {data})
+      res.render('pages/deals', {data})
     });
 });
 
@@ -301,7 +301,7 @@ app.get('/events', (req, res) => {
     })
     .catch(function (err){
       console.log("failed")
-      res.render('pages/calendar', {data})
+      res.render('pages/events', {data})
     });
 });
 

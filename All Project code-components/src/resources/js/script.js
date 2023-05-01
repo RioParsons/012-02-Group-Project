@@ -1,3 +1,4 @@
+document.getElementByID("filterbutton").addEventListener("click", filterEvents());
 // ------------ Calendar Script ------------ //
 const CALENDAR_DAYS = [
     'Sunday',
