@@ -90,7 +90,7 @@ const deals = `
 // TODO - Include your API routes here
 
 app.get('/', (req, res) => {
-    res.redirect('/login'); //this will call the /anotherRoute route in the API
+    res.redirect('/discover');
 });
 
 app.get('/welcome', (req, res) => {
@@ -98,7 +98,11 @@ app.get('/welcome', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('pages/register');
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+    res.render('pages/register', {isLoggedIn});
 });
 
 app.post('/register', async (req, res) => {  
@@ -137,7 +141,7 @@ app.post('/register', async (req, res) => {
     })
     .then(function (data) {
         console.log("Registration succeeded")
-        // console.log(data)
+        //console.log(data)
         res.redirect('/login')
       })
       // if query execution fails
@@ -149,30 +153,16 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    var logout = false;
-    res.render('pages/login', {logout});
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+    res.render('pages/login', {isLoggedIn});
 });
 
 app.post('/login', async (req, res) => {
 
-    // Will add actual functionality to this once we have some working front end
-    // For now this is just for passing our unit tests
-    /*
-    var username = "12345";
-    var password = "abcde";
-
-    if(req.body.username === username && req.body.password === password){
-        res.status(200);
-        res.json({message: 'Success'});
-    } else {
-        res.status(400);
-        res.json({message: 'Failed'});
-    }
-    
-    // if query execution fails
-    // send error message */
-
-    // console.log(req.body);
+    var isLoggedIn = false;
 
     const username = req.body.username;
     const password = req.body.password;
@@ -181,35 +171,42 @@ app.post('/login', async (req, res) => {
     // check if password from request matches with password in D
     db.one(query)
     .then(async function (user) {
-        // console.log(user);
+      // console.log(user);
+      if(user != null){
+        const match = await bcrypt.compare(password, user.pswd);
+        if (match) {
+          //save user details in session like in lab 8
+          //console.log("User found");
+          req.session.user = user;
+          req.session.save();
+          isLoggedIn = true;
 
-        if(user != null){
-            const match = await bcrypt.compare(password, user.pswd);
-            if (match) {
-                //save user details in session like in lab 8
-                console.log("User found");
-                req.session.user = user;
-                req.session.save();
-    
-                res.redirect('/discover');
-            } else {
-                console.log("Username or password is incorrect");
-                res.render('pages/login');
-            }
+          res.status(200);
+          res.redirect('/discover');
         } else {
-            console.log("User not found");
-            res.redirect('/register');
+          //console.log("Username or password is incorrect");
+          res.status(400);
+          res.render('pages/login', {isLoggedIn});
         }
+      } else {
+        res.status(401);
+        res.redirect('/register');
+      }
     })
     // if query execution fails
     // send error message
     .catch(function (err) {
-        console.log("Database request failed", err);
+        res.status(499);
         res.redirect('/register');
     });
 });
 
 app.get('/discover', (req, res) => {
+
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
 
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -234,18 +231,24 @@ app.get('/discover', (req, res) => {
     .then(function (data) {
       console.log(data)
       //console.log(data)
-      res.render('pages/discover', {data})
+      res.render('pages/discover', {data, isLoggedIn})
     })
     // if query execution fails
     // send error message
     .catch(function (err) {
       console.log("failed")
-      res.render('pages/discover', {data})
+      res.render('pages/discover', {data, isLoggedIn})
     });
 
 });
 
 app.get('/deals', (req, res) => {
+
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+
   const deals = `
     SELECT 
       deals.deal_title, 
@@ -266,16 +269,22 @@ app.get('/deals', (req, res) => {
   })
     .then(data => {
       console.log(data)
-      res.render('pages/deals', {data})
+      res.render('pages/deals', {data, isLoggedIn})
     })
     .catch(function (err){
       console.log(err);
       data = [];
-      res.render('pages/deals', {data})
+      res.render('pages/deals', {data, isLoggedIn})
     });
 });
 
 app.get('/calendar', (req, res) => {
+
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+
   const items = `
   SELECT * FROM (
     SELECT 
@@ -301,7 +310,7 @@ app.get('/calendar', (req, res) => {
   })
     .then(function(data){
       console.log(data)
-      res.render('pages/calendar', {data})
+      res.render('pages/calendar', {isLoggedIn}, {data})
     })
     .catch(function (err){
       console.log("failed")
@@ -310,6 +319,12 @@ app.get('/calendar', (req, res) => {
 });
 
 app.get('/events', (req, res) => {
+
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+
   const events = `SELECT 
     events.event_title, 
     events.day,
@@ -328,11 +343,11 @@ app.get('/events', (req, res) => {
   })
     .then(function(data){
       console.log(data)
-      res.render('pages/events', {data})
+      res.render('pages/events', {data, isLoggedIn})
     })
     .catch(function (err){
       console.log("failed")
-      res.render('pages/events', {data})
+      res.render('pages/events', {data, isLoggedIn})
     });
 });
 
@@ -347,7 +362,7 @@ app.get('/getReviews', (req, res) => {
   client.search(searchRequest)
   .then(results => {
     res.json({status: 'success'});
-    console.log(results)
+    //console.log(results)
   })
   .catch(error => {
     // Handle errors
@@ -358,8 +373,8 @@ app.get('/getReviews', (req, res) => {
 
 app.get("/logout", (req, res) => {
   req.session.destroy();
-  var logout = true;
-  res.render("pages/login", {logout});
+  var isLoggedIn = false;
+  res.render("pages/login", {isLoggedIn});
 });
 
 app.get("/restaurant/:rid", async  (req, res) => {
@@ -476,7 +491,12 @@ app.get("/restaurant/:rid", async  (req, res) => {
   }
   console.log(avgDat);
 
-  res.render("pages/restaurant", {restaurant_rating: avgDat, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: safe_yelp})
+  var isLoggedIn = false;
+  if(req.session.user) {
+    isLoggedIn = true;
+  }
+
+  res.render("pages/restaurant", {restaurant_rating: avgDat, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: safe_yelp, isLoggedIn: isLoggedIn})
 })
 
 
@@ -490,7 +510,7 @@ const RatingResult = {
 app.post("/ratings/:rid", async (req, res) => {
 
   let rid = req.params.rid;
-  if(!exists(req.session.user.user_id)) {
+  if(!exists(req.session.user)) {
       console.log("Handle error near line 318")
       await res.send("You must be signed in to post reviews");
       return;
@@ -605,10 +625,9 @@ function exists(option) {
 // Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
-    // Default to login page.
-    return res.redirect('/login');
+    req.isLoggedIn = true;
+    return next();
   }
-  next();
 };
 
 // Authentication Required
