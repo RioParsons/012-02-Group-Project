@@ -217,24 +217,15 @@
             var happyhour = document.querySelector('#happy-hour');
             var mealcombo = document.querySelector('#meal-combo');
             var deals = document.getElementsByName("deal");
-            console.log(deals.length);
             for (i=0; i < deals.length; i++){
-                console.log(deals[i]);
                 var title = deals[i].getElementsByClassName("card-title");
                 var type = title[0].textContent.toUpperCase();
-                console.log(type);
                 if (type.includes("HAPPY HOUR") & happyhour.checked == true){
                     deals[i].style.display = "";
-                    console.log("hh");
-                    console.log(deals[i].style.display);
                 } else if (type.includes("MEAL COMBO") & mealcombo.checked== true) {
                     deals[i].style.display = "";
-                    console.log("mc");
-                    console.log(deals[i].style.display);
                 } else {
                     deals[i].style.display = "none";
-                    console.log("none");
-                    console.log(deals[i].style.display);
                 }
             }
         }

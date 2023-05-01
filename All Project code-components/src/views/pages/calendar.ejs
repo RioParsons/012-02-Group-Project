@@ -2,17 +2,49 @@
 <%- include ('../partials/menu') %>
 
 <!-- WE WILL HAVE TO CHANGE SOME OF THIS STUFF, DO NOT WANT TO ALLOW CUSTOMERS TO HAVE ACCESS TO CREATE/CHANGE EVENTS -->
-
 <main>
     <div class="col">
         <%- include ('../partials/message') %>
     </div>
-    <div class="container">
+    
+    <div class="contaner">
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Calendar of Events and Deals in Boulder</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Plan your week around the deals and events going on this week</p>
+                </div>
+            </div>
+        </header>
+        <h4 class="container px-4 px-lg-5 mt-5">Filter Events</h3>
+        <div class="container px-4 px-lg-5">
+                <tr>
+                  <label style="margin-right: 20px"> <input name="Bingo" type="checkbox" id="bingo" checked> Bingo </label>
+                  <label style="margin-right: 20px"> <input name="Trivia" type="checkbox" id="trivia" checked> Trivia </label>
+                  <label style="margin-right: 20px"> <input name="Game Night" type="checkbox" id="game-night" checked> Game Night </label>
+                  <label style="margin-right: 20px"> <input name="Live Music"type="checkbox" id="live-music" checked> Live Music </label>
+                  <label style="margin-right: 20px"> <input name="Misc Events"type="checkbox" id="other-events" checked> Other Events </label>
+                </tr> 
+                <br>
+                <tr>
+                  <label style="margin-right: 20px"> <input name="Happy Hour" type="checkbox" id="happy-hour" checked> Happy Hour </label>
+                  <label style="margin-right: 20px"> <input name="Meal Combo" type="checkbox" id="meal-combo" checked> Meal Combo </label>
+              </tr> 
+            <br>
+            <button class="btn btn-outline-dark mt-auto" onclick="filterCalendar()"> Filter </button>
+        </div>
         <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-        <h1>Calendar</h1>
+        <h1 class="container px-4 px-lg-5 mt-5">Calendar</h1>
+        <body onload="initializeContent" style="height: 100vh">
         <div class="container">
             <div id="calendar" class="row">
-    
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Sunday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Monday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Tuesday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Wednesday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Thursday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Friday</div>
+              <div class="col-sm m-1 bg-white rounded px-1 px-md-2"> Saturday</div>
             </div>
             <div class="modal" tabindex="-1" id="event-modal">
                 <div class="modal-dialog">
@@ -79,8 +111,43 @@
               </div>
             </form>
         </div>
-
+        </body>
     </div>
+    <script>
+      function filterCalendar(){
+          var trivia = document.querySelector('#trivia');
+          var bingo = document.querySelector('#bingo');
+          var gamenight = document.querySelector('#game-night');
+          var music = document.querySelector('#live-music');
+          var other = document.querySelector('#other-events');
+          var happyhour = document.querySelector('#happy-hour');
+          var mealcombo = document.querySelector('#meal-combo');
+        
+          var items = document.getElementsByName("item");
+          for (i=0; i < events.length; i++){
+            var title = events[i].getElementsByClassName("card-title");
+            var type = title[0].textContent;
+            var type = title[0].textContent.toUpperCase();
+            if (type.includes("HAPPY HOUR") & happyhour.checked == true){
+              deals[i].style.display = "";
+            } else if (type.includes("MEAL COMBO") & mealcombo.checked== true) {
+              deals[i].style.display = "";
+            } else if (type.includes("TRIVIA") & trivia.checked == true){
+              events[i].style.display = "";
+            } else if (type.includes("BINGO") & bingo.checked== true) {
+              events[i].style.display = "";
+            } else if (type.includes("GAME") & gamenight.checked == true) {
+              events[i].style.display = "";
+            } else if (type.includes("MUSIC") & music.checked == true) {
+              events[i].style.display = "";
+            } else if (other.checked == true & !type.includes("TRIVIA") & !type.includes("BINGO") & !type.includes("GAME") & !type.includes("MUSIC") & !type.includes("HAPPY HOUR") & !type.includes("MEAL COMBO")){
+              events[i].style.display = "";
+            } else {
+              events[i].style.display = "none";
+            }
+          }
+      }
+  </script>
 </main>
 
 <%- include ('../partials/footer') %>

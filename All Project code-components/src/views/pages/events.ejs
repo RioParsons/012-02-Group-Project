@@ -219,27 +219,23 @@
             var gamenight = document.querySelector('#game-night');
             var music = document.querySelector('#live-music');
             var other = document.querySelector('#other-events');
+            
             var events = document.getElementsByName("single-event");
             for (i=0; i < events.length; i++){
                 var title = events[i].getElementsByClassName("card-title");
-                var type = title[0].textContent;
-                if (type.includes("rivia") & trivia.checked == true){
+                var type = title[0].textContent.toUpperCase();
+                if (type.includes("TRIVIA") & trivia.checked == true){
                     events[i].style.display = "";
-                    console.log(events[i].style.display);
-                } else if (type.includes("ingo") & bingo.checked== true) {
+                } else if (type.includes("BINGO") & bingo.checked== true) {
                     events[i].style.display = "";
-                    console.log(events[i].style.display);
-                } else if (type.includes("ame") & gamenight.checked == true) {
+                } else if (type.includes("GAME") & gamenight.checked == true) {
                     events[i].style.display = "";
-                    console.log(events[i].style.display);
-                } else if (type.includes("usic") & music.checked == true) {
+                } else if (type.includes("MUSIC") & music.checked == true) {
                     events[i].style.display = "";
-                    console.log(events[i].style.display);
-                } else if (other.checked == true & !type.includes("rivia") & !type.includes("ingo") & !type.includes("ame") & !type.includes("usic")){
+                } else if (other.checked == true & !type.includes("TRIVIA") & !type.includes("BINGO") & !type.includes("GAME") & !type.includes("MUSIC")){
                     events[i].style.display = "";
                 } else {
                     events[i].style.display = "none";
-                    console.log(events[i].style.display);
                 }
             }
         }
