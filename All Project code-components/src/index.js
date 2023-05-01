@@ -162,24 +162,7 @@ app.get('/login', (req, res) => {
 
 app.post('/login', async (req, res) => {
 
-    // Will add actual functionality to this once we have some working front end
-    // For now this is just for passing our unit tests
-    /*
-    var username = "12345";
-    var password = "abcde";
-
-    if(req.body.username === username && req.body.password === password){
-        res.status(200);
-        res.json({message: 'Success'});
-    } else {
-        res.status(400);
-        res.json({message: 'Failed'});
-    }
-    
-    // if query execution fails
-    // send error message */
-
-    // console.log(req.body);
+    var isLoggedIn = false;
 
     const username = req.body.username;
     const password = req.body.password;
@@ -188,30 +171,32 @@ app.post('/login', async (req, res) => {
     // check if password from request matches with password in D
     db.one(query)
     .then(async function (user) {
-        // console.log(user);
+      // console.log(user);
+      if(user != null){
+        const match = await bcrypt.compare(password, user.pswd);
+        if (match) {
+          //save user details in session like in lab 8
+          //console.log("User found");
+          req.session.user = user;
+          req.session.save();
+          isLoggedIn = true;
 
-        if(user != null){
-            const match = await bcrypt.compare(password, user.pswd);
-            if (match) {
-                //save user details in session like in lab 8
-                console.log("User found");
-                req.session.user = user;
-                req.session.save();
-    
-                res.redirect('/discover');
-            } else {
-                console.log("Username or password is incorrect");
-                res.render('pages/login');
-            }
+          res.status(200);
+          res.redirect('/discover');
         } else {
-            console.log("User not found");
-            res.redirect('/register');
+          //console.log("Username or password is incorrect");
+          res.status(400);
+          res.render('pages/login', {isLoggedIn});
         }
+      } else {
+        res.status(401);
+        res.redirect('/register');
+      }
     })
     // if query execution fails
     // send error message
     .catch(function (err) {
-        console.log("Database request failed", err);
+        res.status(499);
         res.redirect('/register');
     });
 });
@@ -346,7 +331,7 @@ app.get('/getReviews', (req, res) => {
   client.search(searchRequest)
   .then(results => {
     res.json({status: 'success'});
-    console.log(results)
+    //console.log(results)
   })
   .catch(error => {
     // Handle errors
