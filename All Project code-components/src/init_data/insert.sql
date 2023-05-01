@@ -1,6 +1,7 @@
 INSERT INTO users (display_name, username, pswd)
 VALUES 
-('admin', 'admin', '$2b$10$wv.Cf0OkgKyJt7WoB78e2u8G9gp26alC8W4Bjp/JW00LGSaawzD4m'); -- Password: 'admin'
+('admin', 'admin', '$2b$10$wv.Cf0OkgKyJt7WoB78e2u8G9gp26alC8W4Bjp/JW00LGSaawzD4m'), -- Password: 'admin'
+('user', 'user', '$2b$10$HLrzo/pGcNw37YuCK.o/jeedDExgtBovPHl01IoHaD9/tdsOw4aL6'); -- Password: 'password'
 
 INSERT INTO owners (owner_id) VALUES 
 (1);
