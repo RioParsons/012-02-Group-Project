@@ -460,7 +460,12 @@ app.get("/restaurant/:rid", async  (req, res) => {
   }
   console.log(avgDat);
 
-  res.render("pages/restaurant", {restaurant_rating: avgDat, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: safe_yelp})
+  var isLoggedIn = false;
+  if(req.session.user) {
+    isLoggedIn = true;
+  }
+
+  res.render("pages/restaurant", {restaurant_rating: avgDat, restaurant_data: r_data_db_res, restaurant_reviews: r_rev_db_res, yelp_data: safe_yelp, isLoggedIn: isLoggedIn})
 })
 
 
