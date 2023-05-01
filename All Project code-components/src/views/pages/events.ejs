@@ -1,9 +1,10 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<main>
+<body>
     <div class="col">
         <%- include ('../partials/message') %>
+        
     </div>
     <div class="contaner">
         <!-- THE REST OF YOUR HTML CODE GOES HERE -->
@@ -15,20 +16,22 @@
                 </div>
             </div>
         </header>
-        <div class="filter">
-            <h4> Select the events you would like to view</h1>
-            <div class="Event-types">
+        <h4 class="container px-4 px-lg-5 mt-5">Filter Deals</h3>
+        <div class="content">
+            <div class="container px-4 px-lg-5">
                 <tr>
-                    <input type="checkbox" id="bingo" onchange="change();"> Bingo </label>
-                    <input type="checkbox" id="trivia" onchange="change();"> Trivia </label>
-                    <input type="checkbox" id="game-night" onchange="change();"> Game Night </label>
-                    <input type="checkbox" id="live-music" onchange="change();"> Live Music </label>
+                    <label style="margin-right: 20px"> <input name="Bingo" type="checkbox" id="bingo" checked>   Bingo    </label>
+                    <label style="margin-right: 20px"> <input name="Trivia" type="checkbox" id="trivia" checked>   Trivia    </label>
+                    <label style="margin-right: 20px"> <input name="Game Night" type="checkbox" id="game-night" checked>   Game Night    </label>
+                    <label style="margin-right: 20px"> <input name="Live Music"type="checkbox" id="live-music" checked>   Live Music    </label>
+                    <label style="margin-right: 20px"> <input name="Misc Events"type="checkbox" id="other-events" checked>   Other Events    </label>
                 </tr> 
             <br>
-            <button onclick="checkBoxes()"> Submit </button>
+            <button class="btn btn-outline-dark mt-auto" onclick="filterEvents()"> Filter </button>
             </div>
         </div>
-        <div class="container px-4 px-lg-5 mt-5" id="eventsList">
+        
+        <div class="container px-4 px-lg-5 mt-5" id="events-list">
             <% const date = new Date(); %>
             <% let date_str = ""; %>
             <% let day = date.getDate(); %>
@@ -106,7 +109,7 @@
                 <% if (data) { %>
                     <% data[0].forEach(function(event){ %>
                         <% if(event.day.includes(wday_str)) { %>
-                            <div class="col mb-5" id="single-event">
+                            <div class="col mb-5" name="single-event">
                                 <div class="card h-100">
                                     <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height= 150>
                                     <div class="card-body">
@@ -191,7 +194,7 @@
                 <% if (data) { %>
                     <% data[0].forEach(function(event){ %>
                         <% if(event.day.includes('Tuesday')) { %>
-                            <div class="col mb-5">
+                            <div class="col mb-5" name="single-event">
                                 <div class="card h-100">
                                     <img src=<%=event.image_url%> class="card-img-top" alt="Restaurant Image" height=150>
                                     <div class="card-body">
@@ -212,6 +215,34 @@
             
         </div>
     </div>
-</main>
+    <script>
+        function filterEvents(){
+            var trivia = document.querySelector('#trivia');
+            var bingo = document.querySelector('#bingo');
+            var gamenight = document.querySelector('#game-night');
+            var music = document.querySelector('#live-music');
+            var other = document.querySelector('#other-events');
+            
+            var events = document.getElementsByName("single-event");
+            for (i=0; i < events.length; i++){
+                var title = events[i].getElementsByClassName("card-title");
+                var type = title[0].textContent.toUpperCase();
+                if (type.includes("TRIVIA") & trivia.checked == true){
+                    events[i].style.display = "";
+                } else if (type.includes("BINGO") & bingo.checked== true) {
+                    events[i].style.display = "";
+                } else if (type.includes("GAME") & gamenight.checked == true) {
+                    events[i].style.display = "";
+                } else if (type.includes("MUSIC") & music.checked == true) {
+                    events[i].style.display = "";
+                } else if (other.checked == true & !type.includes("TRIVIA") & !type.includes("BINGO") & !type.includes("GAME") & !type.includes("MUSIC")){
+                    events[i].style.display = "";
+                } else {
+                    events[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
 
 <%- include ('../partials/footer') %>

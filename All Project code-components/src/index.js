@@ -249,15 +249,16 @@ app.get('/deals', (req, res) => {
     isLoggedIn = true;
   }
 
-  const deals = `SELECT 
-    deals.deal_title, 
-    deals.day,
-    deals.time,
-    deals.deal_description,
-    restaurants.image_url,
-    restaurants.name AS restaurant_name
+  const deals = `
+    SELECT 
+      deals.deal_title, 
+      deals.day,
+      deals.time,
+      deals.deal_description,
+      restaurants.image_url,
+      restaurants.name AS restaurant_name
     FROM 
-    deals 
+      deals 
     JOIN restaurants ON deals.restaurant_id = restaurants.restaurant_id
     ORDER BY time ASC;`;
 
@@ -273,7 +274,7 @@ app.get('/deals', (req, res) => {
     .catch(function (err){
       console.log(err);
       data = [];
-      res.render('pages/calendar', {data, isLoggedIn})
+      res.render('pages/deals', {data, isLoggedIn})
     });
 });
 
@@ -283,8 +284,8 @@ app.get('/calendar', (req, res) => {
   if (req.session.user) {
     isLoggedIn = true;
   }
-
-  res.render('pages/calendar', {isLoggedIn});
+  
+  res.render('pages/calendar', {isLoggedIn})
 });
 
 app.get('/events', (req, res) => {
@@ -316,7 +317,7 @@ app.get('/events', (req, res) => {
     })
     .catch(function (err){
       console.log("failed")
-      res.render('pages/calendar', {data, isLoggedIn})
+      res.render('pages/events', {data, isLoggedIn})
     });
 });
 
