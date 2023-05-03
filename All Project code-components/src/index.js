@@ -279,6 +279,12 @@ app.get('/deals', (req, res) => {
 });
 
 app.get('/calendar', async (req, res) => {
+
+  var isLoggedIn = false;
+  if (req.session.user) {
+    isLoggedIn = true;
+  }
+  
   db.task(async (t) => {
     const eventsQuery = t.any('SELECT e.event_title AS title, r.name AS restaurant_name, e.day, e.time, e.restaurant_id FROM events e JOIN restaurants r ON e.restaurant_id = r.restaurant_id');
 const dealsQuery = t.any('SELECT d.deal_title AS title, r.name AS restaurant_name, d.day, d.time, d.restaurant_id FROM deals d JOIN restaurants r ON d.restaurant_id = r.restaurant_id');
@@ -291,7 +297,7 @@ const dealsQuery = t.any('SELECT d.deal_title AS title, r.name AS restaurant_nam
         return a.time.localeCompare(b.time);
       }
     });
-    res.render('pages/calendar', { eventDeals });
+    res.render('pages/calendar', { eventDeals, isLoggedIn });
   }).then(() => {
     console.log('Events and deals retrieved successfully.');
   }).catch((err) => {
