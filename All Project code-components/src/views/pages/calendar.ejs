@@ -1,74 +1,301 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
+
+
 <!-- WE WILL HAVE TO CHANGE SOME OF THIS STUFF, DO NOT WANT TO ALLOW CUSTOMERS TO HAVE ACCESS TO CREATE/CHANGE EVENTS -->
-<main>
-    <div class="col">
-        <%- include ('../partials/message') %>
-    </div>
-    
-    <div class="contaner">
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Calendar of Events and Deals in Boulder</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Plan your week around the deals and events going on this week</p>
-                </div>
-            </div>
-        </header>
-        <h4 class="container px-4 px-lg-5 mt-5">Filter Events</h3>
-        <div class="container px-4 px-lg-5">
-                <tr>
-                  <label style="margin-right: 20px"> <input name="Bingo" type="checkbox" id="bingo" checked> Bingo </label>
-                  <label style="margin-right: 20px"> <input name="Trivia" type="checkbox" id="trivia" checked> Trivia </label>
-                  <label style="margin-right: 20px"> <input name="Game Night" type="checkbox" id="game-night" checked> Game Night </label>
-                  <label style="margin-right: 20px"> <input name="Live Music"type="checkbox" id="live-music" checked> Live Music </label>
-                  <label style="margin-right: 20px"> <input name="Misc Events"type="checkbox" id="other-events" checked> Other Events </label>
-                </tr> 
-                <br>
-                <tr>
-                  <label style="margin-right: 20px"> <input name="Happy Hour" type="checkbox" id="happy-hour" checked> Happy Hour </label>
-                  <label style="margin-right: 20px"> <input name="Meal Combo" type="checkbox" id="meal-combo" checked> Meal Combo </label>
-              </tr> 
-            <br>
-            <button class="btn btn-outline-dark mt-auto" onclick="filterCalendar()"> Filter </button>
+<style>
+  body {
+	font-family: Tahoma;
+}
+
+header {
+	text-align: center;
+}
+
+#calendar {
+	width: 100%;	
+}
+
+#calendar a {
+	color: #8e352e;
+	text-decoration: none;
+}
+
+#calendar ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+
+#calendar li {
+	display: block;
+	float: left;
+	width:14.342%;
+	padding: 10px;
+	box-sizing:border-box;
+	border: 1px solid #ccc;
+	margin-right: -1px;
+	margin-bottom: -1px;
+}
+
+#calendar ul.weekdays li {
+	text-align: center;
+	text-transform: uppercase;
+	line-height: 20px;
+	border: none !important;
+	padding: 20px 6px;
+	color: #fff;
+	font-size: 13px;
+}
+
+#calendar .days li {
+	height: auto;
+}
+
+
+
+#calendar .date {
+	text-align: center;
+  border-radius: 4px;
+	margin-bottom: 10px;
+	padding: 8px;
+	background: #333;
+	color: #fff;
+	width: auto;
+	float: center;
+}
+
+#calendar .event {
+	clear: both;
+	display: block;
+	font-size: 13px;
+	border-radius: 4px;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 7px;
+	line-height: 14px;
+	background: #cdd0d0;
+	color: #36393a;
+	text-decoration: none;
+}
+
+#calendar .event-desc {
+	color: #666;
+	margin: 2px 0 7px 0;
+	text-decoration: none;	
+}
+
+
+
+#calendar .event button {
+  margin-top: 10px;
+  background-color: #36393a;
+  color: #ffbf00;
+
+ /* add some space between button and other content */
+}
+
+
+</style>
+
+<div id="calendar-wrap">
+  <header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Calendar</h1>
+            <p class="lead fw-normal text-white-50 mb-0">
+              See what events and deals fit in with your schedule.
+            </p>
         </div>
     </div>
-    <script>
-      function filterCalendar(){
-          var trivia = document.querySelector('#trivia');
-          var bingo = document.querySelector('#bingo');
-          var gamenight = document.querySelector('#game-night');
-          var music = document.querySelector('#live-music');
-          var other = document.querySelector('#other-events');
-          var happyhour = document.querySelector('#happy-hour');
-          var mealcombo = document.querySelector('#meal-combo');
+</header>
+  <div id="calendar">
+
+    <!-- Days from previous month -->
+    <ul class="days">
+      <li class="day">
+        <div class="date">Monday</div>
+        <% const mondayEvents = eventDeals.filter(event => event.day.includes('Monday')).sort((a, b) => {
+
+          const aStartTime = parseInt(a.time.split('-')[0]);
+          const bStartTime = parseInt(b.time.split('-')[0]);
         
-          var items = document.getElementsByName("item");
-          for (i=0; i < events.length; i++){
-            var title = events[i].getElementsByClassName("card-title");
-            var type = title[0].textContent;
-            var type = title[0].textContent.toUpperCase();
-            if (type.includes("HAPPY HOUR") & happyhour.checked == true){
-              deals[i].style.display = "";
-            } else if (type.includes("MEAL COMBO") & mealcombo.checked== true) {
-              deals[i].style.display = "";
-            } else if (type.includes("TRIVIA") & trivia.checked == true){
-              events[i].style.display = "";
-            } else if (type.includes("BINGO") & bingo.checked== true) {
-              events[i].style.display = "";
-            } else if (type.includes("GAME") & gamenight.checked == true) {
-              events[i].style.display = "";
-            } else if (type.includes("MUSIC") & music.checked == true) {
-              events[i].style.display = "";
-            } else if (other.checked == true & !type.includes("TRIVIA") & !type.includes("BINGO") & !type.includes("GAME") & !type.includes("MUSIC") & !type.includes("HAPPY HOUR") & !type.includes("MEAL COMBO")){
-              events[i].style.display = "";
-            } else {
-              events[i].style.display = "none";
-            }
-          }
-      }
-  </script>
-</main>
+          return aStartTime - bStartTime;
+        }); %>
+        
+        <ul>
+          <% mondayEvents.forEach(event => { %>
+            <div class="event">
+              <p><%= event.title %></p>
+              <p><%= event.restaurant_name %></p>
+              <div class="event-time">
+                <%= event.time %>              
+              </div>
+
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='/restaurant/<%= event.restaurant_id %>';">Learn More</button>
+            </div>
+          <% }); %>
+          
+        </ul>        					
+      </li>      
+      <li class="day">
+        <div class="date">Tuesday</div> 
+        <% const tuesdayEvents = eventDeals.filter(event => event.day.includes('Tuesday')).sort((a, b) => {
+
+          const aStartTime = parseInt(a.time.split('-')[0]);
+          const bStartTime = parseInt(b.time.split('-')[0]);
+        
+          return aStartTime - bStartTime;
+        }); %>
+        <ul>
+          <% console.log(mondayEvents) %>
+          <% tuesdayEvents.forEach(event => { %>
+            <div class="event">
+              <%= event.title %>
+              <p><%= event.restaurant_name %></p>
+              <div class="event-time">
+                <%= event.time %>              
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='/restaurant/<%= event.restaurant_id %>';">Learn More</button>
+
+            </div>
+          <% }); %>
+          
+        </ul>        					   					
+      </li>
+      <li class="day">
+        <div class="date">Wednesday</div>  
+        <% const wednesdayEvents = eventDeals.filter(event => event.day.includes('Wednesday')).sort((a, b) => {
+
+          const aStartTime = parseInt(a.time.split('-')[0]);
+          const bStartTime = parseInt(b.time.split('-')[0]);
+        
+          return aStartTime - bStartTime;
+        }); %>
+        <ul>
+          <% wednesdayEvents.forEach(event => { %>
+            <div class="event">
+              <%= event.title %>
+              <p><%= event.restaurant_name %></p>
+              <div class="event-time">
+                <%= event.time %>              
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='/restaurant/<%= event.restaurant_id %>';">Learn More</button>
+
+            </div>
+          <% }); %>
+          
+        </ul>   					
+      </li>
+      <li class="day">
+        <div class="date">Thursday</div>  
+        <% const thursdayEvents = eventDeals.filter(event => event.day.includes('Thursday')).sort((a, b) => {
+
+          const aStartTime = parseInt(a.time.split('-')[0]);
+          const bStartTime = parseInt(b.time.split('-')[0]);
+        
+          return aStartTime - bStartTime;
+        }); %>
+        <ul>
+          <% thursdayEvents.forEach(event => { %>
+            <div class="event">
+              <%= event.title %>
+              <p><%= event.restaurant_name %></p>
+              <div class="event-time">
+                <%= event.time %>              
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='/restaurant/<%= event.restaurant_id %>';">Learn More</button>
+
+            </div>
+          <% }); %>
+          
+        </ul>   					  					
+      </li>
+      <li class="day">
+        <div class="date">Friday</div> 
+        <% const fridayEvents = eventDeals.filter(event => event.day.includes('Friday')).sort((a, b) => {
+
+          const aStartTime = parseInt(a.time.split('-')[0]);
+          const bStartTime = parseInt(b.time.split('-')[0]);
+        
+          return aStartTime - bStartTime;
+        }); %>
+        <ul>
+          <% fridayEvents.forEach(event => { %>
+            <div class="event">
+              <%= event.title %>
+              <p><%= event.restaurant_name %></p>
+              <div class="event-time">
+                <%= event.time %>              
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='/restaurant/<%= event.restaurant_id %>';">Learn More</button>
+
+            </div>
+          <% }); %>
+          
+        </ul>    					
+      </li>
+      <li class="day">
+        <div class="date">Saturday</div>
+        <% const saturdayEvents = eventDeals.filter(event => event.day.includes('Saturday')).sort((a, b) => {
+
+          const aStartTime = parseInt(a.time.split('-')[0]);
+          const bStartTime = parseInt(b.time.split('-')[0]);
+        
+          return aStartTime - bStartTime;
+        }); %>
+        <ul>
+          <% saturdayEvents.forEach(event => { %>
+            <div class="event">
+              <%= event.title %>
+              <p><%= event.restaurant_name %></p>
+              <div class="event-time">
+                <%= event.time %>              
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='/restaurant/<%= event.restaurant_id %>';">Learn More</button>
+
+            </div>
+          <% }); %>
+          
+        </ul>     					
+      </li>
+      <li class="day">
+        <div class="date">Sunday</div>
+        <% const sundayEvents = eventDeals.filter(event => event.day.includes('Sunday')).sort((a, b) => {
+
+          const aStartTime = parseInt(a.time.split('-')[0]);
+          const bStartTime = parseInt(b.time.split('-')[0]);
+        
+          return aStartTime - bStartTime;
+        }); %>
+        <ul>
+          <% sundayEvents.forEach(event => { %>
+            <div class="event">
+              <%= event.title %>
+              <p><%= event.restaurant_name %></p>
+              <div class="event-time">
+                <%= event.time %>              
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='/restaurant/<%= event.restaurant_id %>';">Learn More</button>
+
+            </div>
+          <% }); %>
+          
+        </ul> 
+        </div>     					
+      </li>
+    </ul>
+
+      <!-- Row #2 -->
+     
+      </li>
+    </ul>
+
+  </div><!-- /. calendar -->
+</div><!-- /. wrap -->
 
 <%- include ('../partials/footer') %>
