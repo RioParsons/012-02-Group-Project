@@ -329,7 +329,7 @@ header {
 
         var type = title[0].textContent;
         var type = title[0].textContent.toUpperCase();
-
+        console.log(type);
         if (type.includes("HAPPY HOUR") & happyhour.checked == true){
           events[i].style.display = "";
         } else if (type.includes("MEAL COMBO") & mealcombo.checked== true) {
