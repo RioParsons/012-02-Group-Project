@@ -250,17 +250,19 @@ app.get('/deals', (req, res) => {
   }
 
   const deals = `
-    SELECT 
-      deals.deal_title, 
-      deals.day,
-      deals.time,
-      deals.deal_description,
-      restaurants.image_url,
-      restaurants.name AS restaurant_name
-    FROM 
-      deals 
-    JOIN restaurants ON deals.restaurant_id = restaurants.restaurant_id
-    ORDER BY time ASC;`;
+  SELECT 
+  deals.deal_title, 
+  deals.day,
+  deals.time,
+  deals.deal_description,
+  restaurants.image_url,
+  restaurants.name AS restaurant_name,
+  restaurants.restaurant_id
+FROM 
+  deals 
+JOIN restaurants ON deals.restaurant_id = restaurants.restaurant_id
+ORDER BY time ASC;`
+
 
   db.task('do-everything', task =>{
     return task.batch([
@@ -317,15 +319,16 @@ app.get('/events', (req, res) => {
   }
 
   const events = `SELECT 
-    events.event_title, 
-    events.day,
-    events.time,
-    restaurants.image_url,
-    restaurants.name AS restaurant_name
-   FROM 
-    events 
-    JOIN restaurants ON events.restaurant_id = restaurants.restaurant_id
-   ORDER BY time ASC;`;
+  events.event_title, 
+  events.day,
+  events.time,
+  restaurants.image_url,
+  restaurants.name AS restaurant_name,
+  restaurants.restaurant_id
+FROM 
+  events 
+  JOIN restaurants ON events.restaurant_id = restaurants.restaurant_id
+ORDER BY time ASC;`
 
   db.task('do-everything', task =>{
     return task.batch([

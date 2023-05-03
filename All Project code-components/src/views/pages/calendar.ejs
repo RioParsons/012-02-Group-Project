@@ -169,7 +169,6 @@ header {
           return aStartTime - bStartTime;
         }); %>
         <ul>
-          <% console.log(mondayEvents) %>
           <% tuesdayEvents.forEach(event => { %>
             <div class="event">
               <%= event.title %>
@@ -325,7 +324,6 @@ header {
       var mealcombo = document.querySelector('#meal-combo');
    
       var events = document.getElementsByClassName("event");
-      console.log(events);
       for (i=0; i < events.length; i++){
         var title = events[i].getElementsByClassName("event-title");
         console.log(title);
