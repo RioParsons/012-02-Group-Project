@@ -147,7 +147,7 @@ header {
         <ul>
           <% mondayEvents.forEach(event => { %>
             <div class="event">
-              <p><%= event.title %></p>
+              <p class="event-title"><%= event.title %></p>
               <p><%= event.restaurant_name %></p>
               <div class="event-time">
                 <%= event.time %>              
@@ -171,7 +171,7 @@ header {
         <ul>
           <% tuesdayEvents.forEach(event => { %>
             <div class="event">
-              <%= event.title %>
+              <p class="event-title"><%= event.title %></p>
               <p><%= event.restaurant_name %></p>
               <div class="event-time">
                 <%= event.time %>              
@@ -195,7 +195,7 @@ header {
         <ul>
           <% wednesdayEvents.forEach(event => { %>
             <div class="event">
-              <%= event.title %>
+              <p class="event-title"><%= event.title %></p>
               <p><%= event.restaurant_name %></p>
               <div class="event-time">
                 <%= event.time %>              
@@ -219,7 +219,7 @@ header {
         <ul>
           <% thursdayEvents.forEach(event => { %>
             <div class="event">
-              <%= event.title %>
+              <p class="event-title"><%= event.title %></p>
               <p><%= event.restaurant_name %></p>
               <div class="event-time">
                 <%= event.time %>              
@@ -243,7 +243,7 @@ header {
         <ul>
           <% fridayEvents.forEach(event => { %>
             <div class="event">
-              <%= event.title %>
+              <p class="event-title"><%= event.title %></p>
               <p><%= event.restaurant_name %></p>
               <div class="event-time">
                 <%= event.time %>              
@@ -267,7 +267,7 @@ header {
         <ul>
           <% saturdayEvents.forEach(event => { %>
             <div class="event">
-              <%= event.title %>
+              <p class="event-title"><%= event.title %></p>
               <p><%= event.restaurant_name %></p>
               <div class="event-time">
                 <%= event.time %>              
@@ -292,7 +292,7 @@ header {
           <% sundayEvents.forEach(event => { %>
             <div class="event">
               <p class="event-title"><%= event.title %></p>
-              <p><%= event.restaurant_name %></p>
+              <p class="event-title"><%= event.title %></p>
               <div class="event-time">
                 <%= event.time %>              
               </div>
@@ -326,15 +326,14 @@ header {
       var events = document.getElementsByClassName("event");
       for (i=0; i < events.length; i++){
         var title = events[i].getElementsByClassName("event-title");
-        console.log(title);
+
         var type = title[0].textContent;
         var type = title[0].textContent.toUpperCase();
-        console.log('check');
         console.log(type);
         if (type.includes("HAPPY HOUR") & happyhour.checked == true){
-          deals[i].style.display = "";
+          events[i].style.display = "";
         } else if (type.includes("MEAL COMBO") & mealcombo.checked== true) {
-          deals[i].style.display = "";
+          events[i].style.display = "";
         } else if (type.includes("TRIVIA") & trivia.checked == true){
           events[i].style.display = "";
         } else if (type.includes("BINGO") & bingo.checked== true) {
